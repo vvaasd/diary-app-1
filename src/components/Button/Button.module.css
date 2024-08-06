@@ -1,0 +1,29 @@
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-radius: var(--neutral-border-radius);
+  border: none;
+
+  background-color: var(--primary-400);
+  box-shadow: var(--neutral-box-shadow);
+
+  padding: 18px;
+}
+
+.btn:not(:disabled) {
+  cursor: pointer;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+}
+
+.text {
+  color: var(--neutral-700);
+  font-weight: 900;
+  font-size: 18px;
+  line-height: 24px;
+}

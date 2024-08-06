@@ -1,0 +1,10 @@
+body {
+  font-family: 'Lato', sans-serif;
+  background-color: var(--primary-100);
+  color: var(--neutral-700);
+  min-width: 1280px;
+}
+
+.container {
+  margin-inline: clamp(0rem, -12.5rem + 15.63vw, 3.125rem);
+}

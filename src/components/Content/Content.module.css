@@ -1,0 +1,24 @@
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 120px - 58px);
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.noDataIcon {
+  width: 300px;
+  height: 296px;
+}
+
+@media (max-height: 568px) {
+  .main {
+    height: auto;
+  }
+}

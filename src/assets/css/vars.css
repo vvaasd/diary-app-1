@@ -1,0 +1,13 @@
+:root {
+  --neutral-100: #ffffff;
+  --neutral-200: #f2f2f2;
+  --neutral-300: #e6e6e6;
+  --neutral-500: #747576;
+  --neutral-700: #1e2022;
+
+  --primary-100: #fdfcf3;
+  --primary-400: #ffe55e;
+
+  --neutral-border-radius: 10px;
+  --neutral-box-shadow: 0 0 10px 0 rgba(161, 132, 132, 0.1);
+}
