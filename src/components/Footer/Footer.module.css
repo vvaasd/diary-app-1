@@ -1,13 +1,12 @@
 .footer {
   padding-bottom: 40px;
-  padding-left: 40px;
 }
 
 .text {
   font-weight: 500;
   font-size: 14px;
   line-height: 18px;
-  color: var(--neutral-500);
+  color: var(--neutral-800);
 
   margin: 0;
 }
@@ -15,4 +14,8 @@
 .link:active,
 .link:visited {
   color: inherit;
+}
+
+.link {
+  text-underline-offset: 4px;
 }

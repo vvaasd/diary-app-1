@@ -1,0 +1,26 @@
+.calendar {
+  flex-grow: 1;
+
+  position: relative;
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 24px;
+  height: 24px;
+  color: var(--neutral-1000);
+
+  outline-color: transparent;
+  border: none;
+  border-radius: var(--bigger-border-radius);
+
+  background: var(--neutral-100);
+  box-shadow: var(--dark-box-shadow);
+
+  padding: 18px;
+}
+
+.calendar::-webkit-calendar-picker-indicator {
+  background: url('../../../assets/img/calendar.svg') no-repeat;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}

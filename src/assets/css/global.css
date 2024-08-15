@@ -1,10 +1,19 @@
 body {
   font-family: 'Lato', sans-serif;
   background-color: var(--primary-100);
-  color: var(--neutral-700);
+  color: var(--neutral-1000);
   min-width: 1280px;
+}
+
+button:disabled {
+  pointer-events: none;
+}
+
+button:not(:disabled) {
+  cursor: pointer;
 }
 
 .container {
   margin-inline: clamp(0rem, -12.5rem + 15.63vw, 3.125rem);
+  padding-inline: 40px;
 }

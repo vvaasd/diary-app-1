@@ -12,8 +12,8 @@
   padding: 18px;
 }
 
-.btn:not(:disabled) {
-  cursor: pointer;
+.btn.noIcon {
+  background-color: var(--neutral-300);
 }
 
 .icon {
@@ -22,7 +22,7 @@
 }
 
 .text {
-  color: var(--neutral-700);
+  color: var(--neutral-1000);
   font-weight: 900;
   font-size: 18px;
   line-height: 24px;

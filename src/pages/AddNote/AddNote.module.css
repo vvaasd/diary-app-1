@@ -1,0 +1,47 @@
+.main {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+
+  min-height: calc(100vh - 120px - 58px);
+  width: 100%;
+
+  padding-block: 20px 40px;
+}
+
+.fieldBlocks {
+  display: flex;
+  gap: 40px;
+}
+
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  flex-grow: 1;
+}
+
+.fieldBlocks .block:nth-child(2) {
+  /* width: 26.8%; */
+  width: 380px;
+  flex-grow: 0;
+}
+
+.calendarAndSelector {
+  flex-grow: 1;
+  display: flex;
+  gap: 20px;
+}
+
+.btns {
+  display: flex;
+  gap: 20px;
+
+  margin: 0;
+  padding: 0;
+}
+
+.btn {
+  list-style: none;
+}
