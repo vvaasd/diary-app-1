@@ -29,4 +29,50 @@
   &:focus {
     outline: 1px solid var(--neutral-600);
   }
+
+  &:not(:placeholder-shown) + .inputClearBtn {
+    pointer-events: initial;
+    opacity: 1;
+  }
+}
+
+.inputClearBtn {
+  z-index: 10;
+  opacity: 0;
+  pointer-events: none;
+
+  position: absolute;
+  top: 18px;
+  right: 18px;
+
+  width: 24px;
+  height: 24px;
+
+  border: none;
+  background-color: transparent;
+  padding: 0;
+
+  transition: opacity var(--transition-medium);
+
+  &:hover .inputClearIcon path {
+    stroke: var(--neutral-800);
+    fill: var(--neutral-800);
+  }
+
+  &:active .inputClearIcon path {
+    stroke: var(--neutral-900);
+    fill: var(--neutral-900);
+  }
+}
+
+.inputClearIcon {
+  width: 100%;
+  height: 100%;
+
+  & path {
+    fill: var(--neutral-700);
+    stroke: var(--neutral-700);
+
+    transition: stroke var(--transition-medium);
+  }
 }

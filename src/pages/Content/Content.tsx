@@ -1,5 +1,5 @@
 import styles from './Content.module.css';
-import { Button, Icon } from '../../components';
+import { Button, Icon } from '@/components';
 
 type ContentPropsType = {
   handleBtnClick: () => void;

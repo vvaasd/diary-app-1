@@ -1,7 +1,7 @@
 .textarea {
   box-sizing: border-box;
   flex-grow: 1;
-  height: 340px;
+  min-height: 340px;
 
   font-weight: 300;
   font-size: 18px;

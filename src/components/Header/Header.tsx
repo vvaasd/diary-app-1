@@ -1,10 +1,11 @@
 import styles from './Header.module.css';
-import { Logo, Button, CurrentPages } from '../';
+import { Logo, Button } from '@/components';
+import { Pages } from '@/types';
 
 type HeaderPropsType = {
   setMainPage: () => void;
   setCreateNotePage: () => void;
-  currentPage: CurrentPages;
+  currentPage: Pages;
 };
 
 const Header: React.FC<HeaderPropsType> = ({
@@ -14,11 +15,11 @@ const Header: React.FC<HeaderPropsType> = ({
 }) => {
   return (
     <header className={styles.header}>
-      <button onClick={setMainPage} className={styles.logoBtn}>
+      <button type="button" onClick={setMainPage} className={styles.logoBtn}>
         <Logo />
       </button>
 
-      {currentPage === CurrentPages.Content && (
+      {currentPage === Pages.Content && (
         <Button iconName={'edit'} onClick={setCreateNotePage} />
       )}
     </header>

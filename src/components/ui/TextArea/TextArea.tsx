@@ -1,4 +1,4 @@
-import { clsx } from '../../../utils';
+import { clsx } from '@/utils';
 import styles from './TextArea.module.css';
 
 type TextAreaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement> & {
@@ -6,12 +6,17 @@ type TextAreaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement> & {
   className?: string;
 };
 
-const TextArea: React.FC<TextAreaProps> = ({ className, placeholder }) => {
+const TextArea: React.FC<TextAreaProps> = ({
+  className,
+  placeholder,
+  ...props
+}) => {
   return (
     <textarea
       autoComplete="off"
       placeholder={placeholder}
       className={clsx(styles.textarea, className)}
+      {...props}
     />
   );
 };

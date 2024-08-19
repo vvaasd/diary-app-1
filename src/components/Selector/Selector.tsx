@@ -1,35 +1,46 @@
 import { useRef, useState } from 'react';
-import { clsx } from '../../utils';
-import { useClickOutside } from '../../hooks';
-import { Icon } from '../';
-import { EMOJI } from '../../constants';
+import { clsx } from '@/utils';
+import { LocalStorage } from '@/services';
+import { LsCurrentNoteKeys } from '@/types';
+import { useClickOutside } from '@/hooks';
+import { Icon, Dropdown } from '@/components';
+import { EMOJI_LIST } from '@/constants';
 import styles from './Selector.module.css';
 
 const Selector: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [currentEmojiIndex, setCurrentEmojiIndex] = useState<number | null>(
-    null
+    LocalStorage.get(LsCurrentNoteKeys.emojiIndex) || null
   );
   const ref: React.RefObject<HTMLDivElement> = useRef(null);
 
-  const handleClickOutside = (): void => {
+  useClickOutside(ref, (): void => {
     if (isOpen) {
       setIsOpen(false);
     }
+  });
+
+  const handleEmojiSelect = (index: number): void => {
+    setCurrentEmojiIndex(index);
+    LocalStorage.set(LsCurrentNoteKeys.emojiIndex, index);
   };
 
-  useClickOutside(ref, handleClickOutside);
+  const handleEmojiReset = (): void => {
+    setCurrentEmojiIndex(null);
+    LocalStorage.set(LsCurrentNoteKeys.emojiIndex, null);
+  };
 
   const currentEmoji: React.ReactNode =
     currentEmojiIndex === null ? (
       <Icon name={'emoji'} className={styles.icon} />
     ) : (
-      <span className={styles.current}>{EMOJI[currentEmojiIndex]}</span>
+      <span className={styles.current}>{EMOJI_LIST[currentEmojiIndex]}</span>
     );
 
   return (
     <div ref={ref} className={styles.wrapper}>
       <button
+        type="button"
         className={clsx(styles.btn, isOpen && styles.btnOpened)}
         onClick={() => {
           setIsOpen((prev) => !prev);
@@ -41,9 +52,9 @@ const Selector: React.FC = () => {
           className={clsx(styles.icon, styles.arrowDown)}
         />
       </button>
-      <div className={clsx(styles.dropdown, isOpen && styles.dropdownShown)}>
+      <Dropdown className={styles.dropdown} isOpen={isOpen}>
         <ul className={styles.list}>
-          {EMOJI.map(
+          {EMOJI_LIST.map(
             (emoji: string, index: number): React.ReactNode => (
               <li className={styles.element} key={index}>
                 <input
@@ -52,7 +63,7 @@ const Selector: React.FC = () => {
                   id={`emoji${index}`}
                   className={styles.input}
                   onChange={() => {
-                    setCurrentEmojiIndex(index);
+                    handleEmojiSelect(index);
                   }}
                   checked={currentEmojiIndex === index}
                 />
@@ -64,16 +75,15 @@ const Selector: React.FC = () => {
           )}
         </ul>
         <button
+          type="button"
           className={styles.clearBtn}
-          onClick={() => {
-            setCurrentEmojiIndex(null);
-          }}
+          onClick={handleEmojiReset}
           disabled={currentEmojiIndex === null}
         >
           <Icon name="notAllowed" className={styles.clearBtnIcon} />
           <span className={styles.clearBtnText}>Убрать эмоцию</span>
         </button>
-      </div>
+      </Dropdown>
     </div>
   );
 };

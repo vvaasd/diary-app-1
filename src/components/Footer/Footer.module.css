@@ -14,8 +14,10 @@
 .link:active,
 .link:visited {
   color: inherit;
+  color: var(--neutral-800);
 }
 
 .link {
+  color: var(--neutral-800);
   text-underline-offset: 4px;
 }

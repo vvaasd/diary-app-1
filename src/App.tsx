@@ -1,23 +1,17 @@
 import { useState } from 'react';
-import { Header, Footer } from './components';
-import { Content, AddNote } from './pages';
-
-export enum CurrentPages {
-  Content = 'content',
-  AddNote = 'addNote',
-}
+import { Header, Footer } from '@/components';
+import { Content, AddNote } from '@/pages';
+import { Pages } from '@/types';
 
 const App = () => {
-  const [currentPage, setCurrentPage] = useState<CurrentPages>(
-    CurrentPages.Content
-  );
+  const [currentPage, setCurrentPage] = useState<Pages>(Pages.Content);
 
   const setMainPage = (): void => {
-    setCurrentPage(CurrentPages.Content);
+    setCurrentPage(Pages.Content);
   };
 
   const setCreateNotePage = (): void => {
-    setCurrentPage(CurrentPages.AddNote);
+    setCurrentPage(Pages.AddNote);
   };
 
   return (
@@ -27,10 +21,10 @@ const App = () => {
         setCreateNotePage={setCreateNotePage}
         currentPage={currentPage}
       />
-      {currentPage === CurrentPages.Content && (
+      {currentPage === Pages.Content && (
         <Content handleBtnClick={setCreateNotePage} />
       )}
-      {currentPage === CurrentPages.AddNote && (
+      {currentPage === Pages.AddNote && (
         <AddNote handleBtnClick={setMainPage} />
       )}
       <Footer />

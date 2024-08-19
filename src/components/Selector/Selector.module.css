@@ -7,6 +7,7 @@
   align-items: center;
   gap: 18px;
   padding: 18px;
+  padding-right: 24px;
 
   outline-color: transparent;
   border: none;
@@ -59,34 +60,12 @@
 }
 
 .dropdown {
-  box-sizing: border-box;
-  z-index: 10;
-  width: 304px;
-
-  position: absolute;
   right: 0;
   top: 72px;
 
   display: flex;
   flex-direction: column;
   gap: 10px;
-
-  border: 1px solid var(--neutral-600);
-  border-radius: var(--bigger-border-radius);
-
-  opacity: 0;
-  visibility: hidden;
-  box-shadow: var(--dark-box-shadow);
-  background: var(--neutral-100);
-
-  padding: var(--bigger-border-radius);
-
-  transition: opacity var(--transition-medium);
-}
-
-.dropdownShown {
-  visibility: visible;
-  opacity: 1;
 }
 
 .list {

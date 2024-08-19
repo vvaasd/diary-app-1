@@ -1,4 +1,4 @@
-const EMOJI: string[] = [
+export const EMOJI_LIST: string[] = [
   '😌',
   '😊',
   '😄',
@@ -18,5 +18,3 @@ const EMOJI: string[] = [
   '😅',
   '😛',
 ];
-
-export default EMOJI;

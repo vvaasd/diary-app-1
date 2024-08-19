@@ -1,1 +1,1 @@
-export { default as EMOJI } from './EMOJI';
+export { EMOJI_LIST } from './EMOJI_LIST';

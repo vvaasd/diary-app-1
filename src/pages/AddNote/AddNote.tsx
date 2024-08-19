@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   Input,
   Image,
@@ -5,8 +6,10 @@ import {
   Button,
   Calendar,
   Selector,
-  BackgroundTypes,
-} from '../../components';
+  TagSelector,
+} from '@/components';
+import { LocalStorage } from '@/services';
+import { LsCurrentNoteKeys, ButtonBgType } from '@/types';
 import styles from './AddNote.module.css';
 
 type AddNotePropsType = {
@@ -14,31 +17,85 @@ type AddNotePropsType = {
 };
 
 const AddNote: React.FC<AddNotePropsType> = ({ handleBtnClick }) => {
+  const [headerInputValue, setHeaderInputValue] = useState<string>(
+    LocalStorage.get(LsCurrentNoteKeys.header) || ''
+  );
+  const [textAreaValue, setTextAreaValue] = useState<string>(
+    LocalStorage.get(LsCurrentNoteKeys.textArea) || ''
+  );
+  const [calendarValue, setCalendarValue] = useState<string>(
+    LocalStorage.get(LsCurrentNoteKeys.date) || ''
+  );
+
+  const handleChangeHeaderInputValue = (value: string): void => {
+    setHeaderInputValue(value);
+    LocalStorage.set(LsCurrentNoteKeys.header, value);
+  };
+
+  const handleChangeTextAreaValue = (value: string): void => {
+    setTextAreaValue(value);
+    LocalStorage.set(LsCurrentNoteKeys.textArea, value);
+  };
+
+  const handleChangeCalendarValue = (value: string): void => {
+    setCalendarValue(value);
+    LocalStorage.set(LsCurrentNoteKeys.date, value);
+  };
+
+  const handleNoteReset = (): void => {
+    handleBtnClick();
+
+    LocalStorage.set(LsCurrentNoteKeys.header, null);
+    LocalStorage.set(LsCurrentNoteKeys.textArea, null);
+    LocalStorage.set(LsCurrentNoteKeys.date, null);
+    LocalStorage.set(LsCurrentNoteKeys.emojiIndex, null);
+    LocalStorage.set(LsCurrentNoteKeys.tagsInput, null);
+    LocalStorage.set(LsCurrentNoteKeys.tags, null);
+  };
+
   return (
     <main className={styles.main}>
-      <div className={styles.fieldBlocks}>
+      <form action="" className={styles.fieldBlocks}>
         <div className={styles.block}>
-          <Input placeholder={'Заголовок'} />
-          <TextArea placeholder={'Описание'} />
+          <Input
+            placeholder={'Заголовок'}
+            onChange={(e) => {
+              handleChangeHeaderInputValue(e.target.value);
+            }}
+            value={headerInputValue}
+          />
+          <TextArea
+            placeholder={'Описание'}
+            onChange={(e) => {
+              handleChangeTextAreaValue(e.target.value);
+            }}
+            value={textAreaValue}
+          />
         </div>
         <div className={styles.block}>
           <div className={styles.calendarAndSelector}>
-            <Calendar />
+            <Calendar
+              onChange={(e) => {
+                handleChangeCalendarValue(e.target.value);
+              }}
+              value={calendarValue}
+            />
             <Selector />
           </div>
           <Image className={styles.image} />
-          <Input placeholder={'#теги'} />
+          <TagSelector />
         </div>
-      </div>
+      </form>
       <ul className={styles.btns}>
         <li className={styles.btn}>
-          <Button iconName="edit" text="Создать запись" />
+          <Button type={'submit'} iconName={'edit'} text={'Создать запись'} />
         </li>
         <li className={styles.btn}>
           <Button
-            text="Отменить"
-            backgroundType={BackgroundTypes.neutral}
-            onClick={handleBtnClick}
+            type={'reset'}
+            text={'Отменить'}
+            backgroundType={ButtonBgType.Neutral}
+            onClick={handleNoteReset}
           />
         </li>
       </ul>

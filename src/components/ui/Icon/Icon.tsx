@@ -1,29 +1,6 @@
 import React from 'react';
-import {
-  LogoSvg,
-  EditSvg,
-  NoDataSvg,
-  CalendarSvg,
-  EmojiSvg,
-  ImageSvg,
-  NotAllowedSvg,
-  XMarkSvg,
-  ArrowDownSvg,
-} from './Svg';
-
-const svgComponents = {
-  logo: LogoSvg,
-  edit: EditSvg,
-  noData: NoDataSvg,
-  calendar: CalendarSvg,
-  emoji: EmojiSvg,
-  image: ImageSvg,
-  notAllowed: NotAllowedSvg,
-  xMark: XMarkSvg,
-  arrowDown: ArrowDownSvg,
-} as const;
-
-export type IconNameType = keyof typeof svgComponents;
+import { svgComponents } from './Svg';
+import { IconNameType } from '@/types';
 
 type IconProps = React.SVGProps<SVGSVGElement> & {
   name: IconNameType;
