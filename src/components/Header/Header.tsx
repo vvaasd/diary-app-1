@@ -1,14 +1,14 @@
 import styles from './Header.module.css';
 import { Logo, Button } from '@/components';
-import { Pages } from '@/types';
+import { EPages } from '@/types';
 
-type HeaderPropsType = {
+type HeaderProps = {
   setMainPage: () => void;
   setCreateNotePage: () => void;
-  currentPage: Pages;
+  currentPage: EPages;
 };
 
-const Header: React.FC<HeaderPropsType> = ({
+const Header: React.FC<HeaderProps> = ({
   setMainPage,
   setCreateNotePage,
   currentPage,
@@ -19,7 +19,7 @@ const Header: React.FC<HeaderPropsType> = ({
         <Logo />
       </button>
 
-      {currentPage === Pages.Content && (
+      {currentPage === EPages.Content && (
         <Button iconName={'edit'} onClick={setCreateNotePage} />
       )}
     </header>

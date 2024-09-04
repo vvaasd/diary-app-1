@@ -34,6 +34,10 @@
     pointer-events: initial;
     opacity: 1;
   }
+
+  &.withClearBtn {
+    padding-right: 60px;
+  }
 }
 
 .inputClearBtn {
@@ -55,12 +59,10 @@
   transition: opacity var(--transition-medium);
 
   &:hover .inputClearIcon path {
-    stroke: var(--neutral-800);
     fill: var(--neutral-800);
   }
 
   &:active .inputClearIcon path {
-    stroke: var(--neutral-900);
     fill: var(--neutral-900);
   }
 }
@@ -71,8 +73,7 @@
 
   & path {
     fill: var(--neutral-700);
-    stroke: var(--neutral-700);
 
-    transition: stroke var(--transition-medium);
+    transition: fill var(--transition-medium);
   }
 }

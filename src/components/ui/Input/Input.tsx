@@ -4,8 +4,6 @@ import { Icon } from '@/components';
 import styles from './Input.module.css';
 
 type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
-  placeholder?: string;
-  className?: string;
   withClearBtn?: boolean;
   onClear?: () => void;
 };
@@ -26,7 +24,11 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         <input
           type="text"
           placeholder={placeholder}
-          className={clsx(styles.input, className)}
+          className={clsx(
+            styles.input,
+            withClearBtn && styles.withClearBtn,
+            className
+          )}
           ref={ref}
           {...props}
         />

@@ -1,15 +1,21 @@
 import { useEffect } from 'react';
+import { RefType } from '@/types';
 
-type RefType = React.RefObject<HTMLElement>;
 type CallbackType = () => void;
 
-const useClickOutside = (ref: RefType, callback: CallbackType): void => {
+const useClickOutside = (callback: CallbackType, ...refs: RefType[]): void => {
   const handleClick = (event: MouseEvent): void => {
-    if (
-      ref &&
-      event.target instanceof Node &&
-      !ref?.current?.contains(event.target as Node)
-    ) {
+    let isClickedOutside = 0;
+    refs.forEach((ref) => {
+      if (
+        ref.current &&
+        event.target instanceof Node &&
+        !ref?.current?.contains(event.target as Node)
+      ) {
+        isClickedOutside++;
+      }
+    });
+    if (isClickedOutside === refs.length) {
       callback();
     }
   };
@@ -19,7 +25,8 @@ const useClickOutside = (ref: RefType, callback: CallbackType): void => {
     return () => {
       document.removeEventListener('mousedown', handleClick);
     };
-  });
+    //eslint-disable-next-line
+  }, []);
 };
 
 export default useClickOutside;

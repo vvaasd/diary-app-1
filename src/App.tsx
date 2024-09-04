@@ -1,17 +1,17 @@
 import { useState } from 'react';
 import { Header, Footer } from '@/components';
 import { Content, AddNote } from '@/pages';
-import { Pages } from '@/types';
+import { EPages } from '@/types';
 
 const App = () => {
-  const [currentPage, setCurrentPage] = useState<Pages>(Pages.Content);
+  const [currentPage, setCurrentPage] = useState<EPages>(EPages.Content);
 
   const setMainPage = (): void => {
-    setCurrentPage(Pages.Content);
+    setCurrentPage(EPages.Content);
   };
 
   const setCreateNotePage = (): void => {
-    setCurrentPage(Pages.AddNote);
+    setCurrentPage(EPages.AddNote);
   };
 
   return (
@@ -21,10 +21,10 @@ const App = () => {
         setCreateNotePage={setCreateNotePage}
         currentPage={currentPage}
       />
-      {currentPage === Pages.Content && (
+      {currentPage === EPages.Content && (
         <Content handleBtnClick={setCreateNotePage} />
       )}
-      {currentPage === Pages.AddNote && (
+      {currentPage === EPages.AddNote && (
         <AddNote handleBtnClick={setMainPage} />
       )}
       <Footer />

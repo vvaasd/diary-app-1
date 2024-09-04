@@ -1,0 +1,138 @@
+.btn {
+  flex-grow: 1;
+  position: relative;
+  border: none;
+
+  height: 240px;
+
+  padding: 0;
+
+  box-shadow: var(--dark-box-shadow);
+  border-radius: var(--neutral-border-radius);
+
+  overflow: hidden;
+
+  & .icon {
+    opacity: 0;
+  }
+
+  &.default:not(.withImage) .image {
+    transition: opacity var(--transition-medium);
+    opacity: 0.4;
+  }
+
+  &.default .icon {
+    opacity: 1;
+  }
+
+  &.default .icon path {
+    fill: var(--neutral-700);
+  }
+
+  &.default:hover .clearBtn {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  &.default:not(.withImage):hover .image {
+    opacity: 0.6;
+  }
+
+  &.default:hover .icon path {
+    fill: var(--neutral-800);
+  }
+
+  &.default:not(.withImage):active .image {
+    opacity: 1;
+  }
+
+  &.default:active .icon path {
+    fill: var(--neutral-900);
+  }
+
+  &.withImage.default:hover .image {
+    filter: brightness(0.9);
+  }
+
+  &.withImage.default:active .image {
+    filter: brightness(0.6);
+  }
+
+  &.withImage:active .image {
+    filter: brightness(0.6);
+  }
+
+  &:not(.default):active .icon {
+    opacity: 1;
+  }
+
+  &.selected .image {
+    filter: brightness(0.6);
+  }
+
+  &.selected .icon {
+    opacity: 1;
+  }
+}
+
+.image {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  object-fit: cover;
+
+  width: 100%;
+  height: 100%;
+
+  transition: filter var(--transition-medium);
+}
+
+.clearBtn {
+  opacity: 0;
+  pointer-events: none;
+
+  position: absolute;
+  top: 16px;
+  right: 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+
+  border-radius: var(--smaller-border-radius);
+  box-shadow: var(--small-dark-box-shadow);
+  background-color: rgba(255, 255, 255, 0.6);
+
+  transition: background-color var(--transition-medium),
+    opacity var(--transition-medium);
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.9);
+  }
+
+  &:active {
+    background-color: var(--neutral-700);
+  }
+}
+
+.clearIcon {
+  width: 16px;
+  height: 16px;
+}
+
+.icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  transition: opacity var(--transition-medium);
+
+  & path {
+    transition: fill var(--transition-medium);
+    fill: var(--neutral-600);
+  }
+}

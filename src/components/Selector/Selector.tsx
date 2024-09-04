@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { clsx } from '@/utils';
-import { LocalStorage } from '@/services';
-import { LsCurrentNoteKeys } from '@/types';
+import { StorageService } from '@/services';
+import { ELocalStorageCurrentNoteKeys } from '@/types';
 import { useClickOutside } from '@/hooks';
 import { Icon, Dropdown } from '@/components';
 import { EMOJI_LIST } from '@/constants';
@@ -10,24 +10,24 @@ import styles from './Selector.module.css';
 const Selector: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [currentEmojiIndex, setCurrentEmojiIndex] = useState<number | null>(
-    LocalStorage.get(LsCurrentNoteKeys.emojiIndex) || null
+    StorageService.get(ELocalStorageCurrentNoteKeys.emojiIndex) || null
   );
   const ref: React.RefObject<HTMLDivElement> = useRef(null);
 
-  useClickOutside(ref, (): void => {
+  useClickOutside((): void => {
     if (isOpen) {
       setIsOpen(false);
     }
-  });
+  }, ref);
 
   const handleEmojiSelect = (index: number): void => {
     setCurrentEmojiIndex(index);
-    LocalStorage.set(LsCurrentNoteKeys.emojiIndex, index);
+    StorageService.set(ELocalStorageCurrentNoteKeys.emojiIndex, index);
   };
 
   const handleEmojiReset = (): void => {
     setCurrentEmojiIndex(null);
-    LocalStorage.set(LsCurrentNoteKeys.emojiIndex, null);
+    StorageService.set(ELocalStorageCurrentNoteKeys.emojiIndex, null);
   };
 
   const currentEmoji: React.ReactNode =

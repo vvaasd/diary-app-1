@@ -1,4 +1,4 @@
-export enum KeyboardKey {
+export enum EKeyboardKey {
   escape = 'Escape',
   enter = 'Enter',
   arrowUp = 'ArrowUp',

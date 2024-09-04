@@ -1,105 +1,142 @@
 import { useState } from 'react';
 import {
   Input,
-  Image,
+  ImageButton,
   TextArea,
   Button,
   Calendar,
   Selector,
   TagSelector,
+  Modal,
+  SearchImage,
 } from '@/components';
-import { LocalStorage } from '@/services';
-import { LsCurrentNoteKeys, ButtonBgType } from '@/types';
+import { StorageService } from '@/services';
+import {
+  ELocalStorageCurrentNoteKeys,
+  EButtonBgType,
+  EImageButtonType,
+  ImageInfoType,
+} from '@/types';
+import { DEFAULT_IMAGE_INFO } from '@/constants';
 import styles from './AddNote.module.css';
 
-type AddNotePropsType = {
+type AddNoteProps = {
   handleBtnClick: () => void;
 };
 
-const AddNote: React.FC<AddNotePropsType> = ({ handleBtnClick }) => {
+const AddNote: React.FC<AddNoteProps> = ({ handleBtnClick }) => {
+  const [isImagesModalOpen, setIsImagesModalOpen] = useState<boolean>(false);
   const [headerInputValue, setHeaderInputValue] = useState<string>(
-    LocalStorage.get(LsCurrentNoteKeys.header) || ''
+    StorageService.get(ELocalStorageCurrentNoteKeys.header) || ''
   );
   const [textAreaValue, setTextAreaValue] = useState<string>(
-    LocalStorage.get(LsCurrentNoteKeys.textArea) || ''
+    StorageService.get(ELocalStorageCurrentNoteKeys.textArea) || ''
   );
   const [calendarValue, setCalendarValue] = useState<string>(
-    LocalStorage.get(LsCurrentNoteKeys.date) || ''
+    StorageService.get(ELocalStorageCurrentNoteKeys.date) || ''
+  );
+  const [currentImage, setCurrentImage] = useState<ImageInfoType>(
+    StorageService.get(ELocalStorageCurrentNoteKeys.imageInfo) ||
+      DEFAULT_IMAGE_INFO
   );
 
   const handleChangeHeaderInputValue = (value: string): void => {
     setHeaderInputValue(value);
-    LocalStorage.set(LsCurrentNoteKeys.header, value);
+    StorageService.set(ELocalStorageCurrentNoteKeys.header, value);
   };
 
   const handleChangeTextAreaValue = (value: string): void => {
     setTextAreaValue(value);
-    LocalStorage.set(LsCurrentNoteKeys.textArea, value);
+    StorageService.set(ELocalStorageCurrentNoteKeys.textArea, value);
   };
 
   const handleChangeCalendarValue = (value: string): void => {
     setCalendarValue(value);
-    LocalStorage.set(LsCurrentNoteKeys.date, value);
+    StorageService.set(ELocalStorageCurrentNoteKeys.date, value);
+  };
+
+  const handleChangeImage = (info: ImageInfoType): void => {
+    setCurrentImage(info);
+    setIsImagesModalOpen(false);
+    // в LS значение кладется на уровне SearchImage
+  };
+
+  const handleClearImageSrc = (): void => {
+    setCurrentImage(DEFAULT_IMAGE_INFO);
+    StorageService.remove(ELocalStorageCurrentNoteKeys.imageInfo);
   };
 
   const handleNoteReset = (): void => {
     handleBtnClick();
 
-    LocalStorage.set(LsCurrentNoteKeys.header, null);
-    LocalStorage.set(LsCurrentNoteKeys.textArea, null);
-    LocalStorage.set(LsCurrentNoteKeys.date, null);
-    LocalStorage.set(LsCurrentNoteKeys.emojiIndex, null);
-    LocalStorage.set(LsCurrentNoteKeys.tagsInput, null);
-    LocalStorage.set(LsCurrentNoteKeys.tags, null);
+    StorageService.removeByObject(ELocalStorageCurrentNoteKeys);
   };
 
   return (
-    <main className={styles.main}>
-      <form action="" className={styles.fieldBlocks}>
-        <div className={styles.block}>
-          <Input
-            placeholder={'Заголовок'}
-            onChange={(e) => {
-              handleChangeHeaderInputValue(e.target.value);
-            }}
-            value={headerInputValue}
-          />
-          <TextArea
-            placeholder={'Описание'}
-            onChange={(e) => {
-              handleChangeTextAreaValue(e.target.value);
-            }}
-            value={textAreaValue}
-          />
-        </div>
-        <div className={styles.block}>
-          <div className={styles.calendarAndSelector}>
-            <Calendar
+    <>
+      <Modal
+        isOpen={isImagesModalOpen}
+        onClose={() => {
+          setIsImagesModalOpen(false);
+        }}
+      >
+        <SearchImage onSelectImage={handleChangeImage} />
+      </Modal>
+      <main className={styles.main}>
+        <form action="" className={styles.fieldBlocks}>
+          <div className={styles.block}>
+            <Input
+              placeholder={'Заголовок'}
               onChange={(e) => {
-                handleChangeCalendarValue(e.target.value);
+                handleChangeHeaderInputValue(e.target.value);
               }}
-              value={calendarValue}
+              value={headerInputValue}
             />
-            <Selector />
+            <TextArea
+              placeholder={'Описание'}
+              onChange={(e) => {
+                handleChangeTextAreaValue(e.target.value);
+              }}
+              value={textAreaValue}
+            />
           </div>
-          <Image className={styles.image} />
-          <TagSelector />
-        </div>
-      </form>
-      <ul className={styles.btns}>
-        <li className={styles.btn}>
-          <Button type={'submit'} iconName={'edit'} text={'Создать запись'} />
-        </li>
-        <li className={styles.btn}>
-          <Button
-            type={'reset'}
-            text={'Отменить'}
-            backgroundType={ButtonBgType.Neutral}
-            onClick={handleNoteReset}
-          />
-        </li>
-      </ul>
-    </main>
+          <div className={styles.block}>
+            <div className={styles.calendarAndSelector}>
+              <Calendar
+                onChange={(e) => {
+                  handleChangeCalendarValue(e.target.value);
+                }}
+                value={calendarValue}
+              />
+              <Selector />
+            </div>
+            <ImageButton
+              onClick={() => {
+                setIsImagesModalOpen(true);
+              }}
+              imageSrc={currentImage.src}
+              imageAlt={currentImage.alt}
+              imageType={EImageButtonType.Default}
+              onClear={handleClearImageSrc}
+            />
+            <TagSelector disabled={isImagesModalOpen} />
+          </div>
+        </form>
+        <ul className={styles.btns}>
+          <li className={styles.btn}>
+            <Button type={'submit'} iconName={'edit'} text={'Создать запись'} />
+          </li>
+          <li className={styles.btn}>
+            <Button
+              type={'reset'}
+              text={'Отменить'}
+              backgroundType={EButtonBgType.Neutral}
+              onClick={handleNoteReset}
+            />
+          </li>
+        </ul>
+      </main>
+    </>
   );
 };
 

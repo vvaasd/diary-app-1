@@ -1,4 +1,4 @@
-export enum ButtonBgType {
+export enum EButtonBgType {
   Primary = 'primary',
   Neutral = 'neutral',
 }

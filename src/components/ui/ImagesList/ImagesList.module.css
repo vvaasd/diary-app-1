@@ -1,0 +1,30 @@
+.gridList {
+  display: grid;
+  min-width: min-content;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 20px;
+
+  margin: 0;
+  padding: 0;
+
+  padding-bottom: 40px;
+}
+
+.gridItem {
+  list-style: none;
+  width: 350px;
+
+  &.vertical {
+    grid-row: span 2;
+    height: 440px;
+  }
+
+  &.horizontal {
+    height: 210px;
+  }
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+}

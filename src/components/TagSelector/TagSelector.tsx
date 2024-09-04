@@ -2,8 +2,8 @@ import { useState, useRef } from 'react';
 import { Input, Dropdown, Tag } from '@/components';
 import { useClickOutside, useKeyDown } from '@/hooks';
 import { clsx, getTagsByText, upperCaseFirstLetter } from '@/utils';
-import { LocalStorage } from '@/services';
-import { LsCurrentNoteKeys, KeyboardKey } from '@/types';
+import { StorageService } from '@/services';
+import { ELocalStorageCurrentNoteKeys, EKeyboardKey } from '@/types';
 import styles from './TagSelector.module.css';
 
 const DATA_ATTRIBUTES: Record<string, string> = {
@@ -11,13 +11,17 @@ const DATA_ATTRIBUTES: Record<string, string> = {
   dropdownInput: 'dropdown-input',
 };
 
-const TagSelector: React.FC = () => {
+type TagSelectorProps = React.HTMLAttributes<HTMLDivElement> & {
+  disabled?: boolean;
+};
+
+const TagSelector: React.FC<TagSelectorProps> = ({ disabled = false }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>(
-    LocalStorage.get(LsCurrentNoteKeys.tagsInput) || ''
+    StorageService.get(ELocalStorageCurrentNoteKeys.tagsInput) || ''
   );
   const [currentTags, setCurrentTags] = useState<string[]>(
-    LocalStorage.get(LsCurrentNoteKeys.tags) || []
+    StorageService.get(ELocalStorageCurrentNoteKeys.tags) || []
   );
   const [dropdownTags, setDropdownTags] = useState<string[]>(
     getTagsByText(inputValue, currentTags)
@@ -27,12 +31,16 @@ const TagSelector: React.FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownListRef = useRef<HTMLUListElement>(null);
 
-  useClickOutside(inputWithDropdownRef, () => {
+  useClickOutside(() => {
     setIsDropdownOpen(false);
     handleFocusMove('out');
-  });
+  }, inputWithDropdownRef);
 
   const handleInput = (value: string): void => {
+    if (disabled) {
+      return;
+    }
+
     const tags = getTagsByText(value, currentTags);
 
     if (tags.length === 0) {
@@ -41,7 +49,7 @@ const TagSelector: React.FC = () => {
       setIsDropdownOpen(true);
     }
 
-    LocalStorage.set(LsCurrentNoteKeys.tagsInput, value);
+    StorageService.set(ELocalStorageCurrentNoteKeys.tagsInput, value);
     setInputValue(value);
     setDropdownTags(tags);
   };
@@ -50,7 +58,8 @@ const TagSelector: React.FC = () => {
     targetTag: string,
     operation: 'delete' | 'add'
   ): void => {
-    const oldTags: string[] = LocalStorage.get(LsCurrentNoteKeys.tags) || [];
+    const oldTags: string[] =
+      StorageService.get(ELocalStorageCurrentNoteKeys.tags) || [];
 
     let newCurrentTags: string[] = [];
     if (operation === 'delete') {
@@ -66,12 +75,16 @@ const TagSelector: React.FC = () => {
     }
     const newDropdownTags: string[] = getTagsByText(inputValue, newCurrentTags);
 
-    LocalStorage.set(LsCurrentNoteKeys.tags, newCurrentTags);
+    StorageService.set(ELocalStorageCurrentNoteKeys.tags, newCurrentTags);
     setCurrentTags(newCurrentTags);
     setDropdownTags(newDropdownTags);
   };
 
   const handleEnter = (event: KeyboardEvent): void => {
+    if (disabled) {
+      return;
+    }
+
     const activeElementName =
       document?.activeElement?.getAttribute('data-element-name');
 
@@ -104,6 +117,10 @@ const TagSelector: React.FC = () => {
   };
 
   const handleFocusMove = (moveType: 'up' | 'down' | 'out'): void => {
+    if (disabled) {
+      return;
+    }
+
     const lastBtnIndex = dropdownTags.length - 1;
 
     let newIndex: number = -1;
@@ -133,14 +150,14 @@ const TagSelector: React.FC = () => {
     setDropdownTabIndex(newIndex);
   };
 
-  useKeyDown(KeyboardKey.enter, handleEnter);
+  useKeyDown(EKeyboardKey.enter, handleEnter);
 
-  useKeyDown(KeyboardKey.enter, handleEnter);
-  useKeyDown(KeyboardKey.arrowUp, (event) => {
+  useKeyDown(EKeyboardKey.enter, handleEnter);
+  useKeyDown(EKeyboardKey.arrowUp, (event) => {
     event.preventDefault();
     handleFocusMove('up');
   });
-  useKeyDown(KeyboardKey.arrowDown, (event) => {
+  useKeyDown(EKeyboardKey.arrowDown, (event) => {
     event.preventDefault();
     handleFocusMove('down');
   });

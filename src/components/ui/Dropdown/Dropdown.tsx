@@ -3,8 +3,6 @@ import styles from './Dropdown.module.css';
 
 type DropdownProps = React.HTMLAttributes<HTMLDivElement> & {
   isOpen: boolean;
-  className?: string;
-  children?: React.ReactNode;
 };
 
 const Dropdown: React.FC<DropdownProps> = ({ className, isOpen, children }) => {

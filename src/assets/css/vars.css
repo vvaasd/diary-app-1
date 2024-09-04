@@ -12,7 +12,9 @@
   --neutral-1000: #1e2022;
 
   --primary-100: #fdfcf3;
+  --primary-300: #ffef9e;
   --primary-400: #ffe55e;
+  --primary-450: #f5db54;
   --primary-500: #ebd14a;
   --primary-600: #d2aa1b;
 
@@ -21,6 +23,7 @@
   --bigger-border-radius: 12px;
 
   --neutral-box-shadow: 0 0 10px 0 rgba(161, 132, 132, 0.1);
+  --small-dark-box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
   --dark-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
 
   --transition-medium: 0.2s ease-in-out;

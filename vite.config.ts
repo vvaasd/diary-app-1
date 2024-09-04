@@ -12,7 +12,7 @@ export default defineConfig({
       '@constants': path.resolve(__dirname, './src/constants'),
       '@data': path.resolve(__dirname, './src/data'),
       '@hooks': path.resolve(__dirname, './src/hooks'),
-      '@pages': path.resolve(__dirname, './src/pages'),
+      '@EPages': path.resolve(__dirname, './src/EPages'),
       '@services': path.resolve(__dirname, './src/services'),
       '@types': path.resolve(__dirname, './src/shared'),
       '@utils': path.resolve(__dirname, './src/utils'),

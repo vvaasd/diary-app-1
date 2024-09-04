@@ -1,6 +1,10 @@
+export type { RefType } from './RefType';
 export type { IconNameType } from './IconNameType';
+export type { ImageInfoType } from './ImageInfoType';
+export type { ResultsImageFetchType } from './ResultsImageFetchType';
 
-export { KeyboardKey } from './enums/KeyboardKey';
-export { LsCurrentNoteKeys } from './enums/LsCurrentNoteKeys';
-export { ButtonBgType } from './enums/ButtonBgType';
-export { Pages } from './enums/Pages';
+export { EKeyboardKey } from './enums/EKeyboardKey';
+export { ELocalStorageCurrentNoteKeys } from './enums/ELocalStorageCurrentNoteKeys';
+export { EImageButtonType } from './enums/EImageButtonType';
+export { EButtonBgType } from './enums/EButtonBgType';
+export { EPages } from './enums/EPages';

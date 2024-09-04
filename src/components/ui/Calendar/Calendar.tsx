@@ -2,9 +2,7 @@ import { clsx } from '@/utils';
 import { Icon, Input } from '@/components';
 import styles from './Calendar.module.css';
 
-type CalendarProps = React.InputHTMLAttributes<HTMLInputElement> & {
-  className?: string;
-};
+type CalendarProps = React.InputHTMLAttributes<HTMLInputElement>;
 
 const Calendar: React.FC<CalendarProps> = ({ className, ...props }) => {
   const today: string = new Date().toISOString().split('T')[0];
