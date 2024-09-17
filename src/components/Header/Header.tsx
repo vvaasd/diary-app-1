@@ -1,26 +1,36 @@
-import styles from './Header.module.css';
 import { Logo, Button } from '@/components';
-import { EPages } from '@/types';
+import { setAddNotePage, setContentPage } from '@/store/slices/pages.slice';
+import { useAppDispatch } from '@/store';
+import styles from './Header.module.css';
 
-type HeaderProps = {
-  setMainPage: () => void;
-  setCreateNotePage: () => void;
-  currentPage: EPages;
+type HeaderProps = React.HTMLAttributes<HTMLDivElement> & {
+  withEditBtn: boolean;
 };
 
-const Header: React.FC<HeaderProps> = ({
-  setMainPage,
-  setCreateNotePage,
-  currentPage,
-}) => {
+const Header: React.FC<HeaderProps> = (props) => {
+  const { withEditBtn } = props;
+
+  const dispatch = useAppDispatch();
+
   return (
     <header className={styles.header}>
-      <button type="button" onClick={setMainPage} className={styles.logoBtn}>
+      <button
+        type={'button'}
+        onClick={() => {
+          dispatch(setContentPage());
+        }}
+        className={styles.logoBtn}
+      >
         <Logo />
       </button>
 
-      {currentPage === EPages.Content && (
-        <Button iconName={'edit'} onClick={setCreateNotePage} />
+      {withEditBtn && (
+        <Button
+          iconName={'edit'}
+          onClick={() => {
+            dispatch(setAddNotePage());
+          }}
+        />
       )}
     </header>
   );

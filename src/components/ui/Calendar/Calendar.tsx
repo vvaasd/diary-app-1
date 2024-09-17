@@ -1,24 +1,25 @@
 import { clsx } from '@/utils';
 import { Icon, Input } from '@/components';
+import { DateService } from '@/services';
 import styles from './Calendar.module.css';
 
 type CalendarProps = React.InputHTMLAttributes<HTMLInputElement>;
 
-const Calendar: React.FC<CalendarProps> = ({ className, ...props }) => {
-  const today: string = new Date().toISOString().split('T')[0];
+const Calendar: React.FC<CalendarProps> = (props) => {
+  const { className, value, ...otherProps } = props;
 
-  const { value, ...restProps } = props;
+  const today: string = DateService.getTodayString();
 
   return (
     <div className={styles.wrapper}>
       <Input
-        type="date"
-        value={value || today}
+        type={'date'}
+        value={value}
         max={today}
         className={clsx(styles.calendar, className)}
-        {...restProps}
+        {...otherProps}
       />
-      <Icon name={'calendar'} className={styles.icon} />
+      <Icon name={'calendar'} className={clsx(styles.icon, 'colored')} />
     </div>
   );
 };

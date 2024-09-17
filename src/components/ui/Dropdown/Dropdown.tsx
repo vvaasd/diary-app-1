@@ -5,9 +5,14 @@ type DropdownProps = React.HTMLAttributes<HTMLDivElement> & {
   isOpen: boolean;
 };
 
-const Dropdown: React.FC<DropdownProps> = ({ className, isOpen, children }) => {
+const Dropdown: React.FC<DropdownProps> = (props) => {
+  const { className, isOpen, children, ...otherProps } = props;
+
   return (
-    <div className={clsx(styles.dropdown, className, isOpen && styles.shown)}>
+    <div
+      className={clsx(styles.dropdown, isOpen && styles.shown, className)}
+      {...otherProps}
+    >
       {children}
     </div>
   );

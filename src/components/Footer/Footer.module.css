@@ -3,12 +3,10 @@
 }
 
 .text {
-  font-weight: 500;
   font-size: 14px;
+  font-weight: 500;
   line-height: 18px;
   color: var(--neutral-800);
-
-  margin: 0;
 }
 
 .link:active,

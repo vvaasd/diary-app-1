@@ -1,15 +1,15 @@
 .btn {
   display: flex;
+  gap: 10px;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  border-radius: var(--neutral-border-radius);
-  border: none;
-
-  background-color: var(--primary-400);
-  box-shadow: var(--dark-box-shadow);
 
   padding: 18px;
+
+  background-color: var(--primary-400);
+  border: none;
+  border-radius: var(--neutral-border-radius);
+  box-shadow: var(--dark-box-shadow);
 
   transition: background-color var(--transition-medium);
 
@@ -23,6 +23,14 @@
 
   &:disabled:not(.neutral) {
     background-color: var(--primary-300);
+  }
+
+  &:disabled .text {
+    color: var(--neutral-800);
+  }
+
+  &:disabled .icon {
+    color: var(--neutral-800);
   }
 }
 
@@ -44,8 +52,8 @@
 }
 
 .text {
-  color: var(--neutral-1000);
-  font-weight: 900;
   font-size: 18px;
+  font-weight: 900;
   line-height: 24px;
+  color: var(--neutral-1000);
 }

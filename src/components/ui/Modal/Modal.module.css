@@ -1,58 +1,51 @@
 .modal {
-  box-sizing: border-box;
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
+
   display: flex;
   align-items: center;
   justify-content: center;
 
-  position: fixed;
-  top: 0;
-  left: 0;
-
-  border: none;
-  z-index: 100;
-
+  box-sizing: border-box;
   width: 100vw;
   height: 100vh;
 
+  background: rgb(50 47 40 / 70%);
   backdrop-filter: blur(5px);
-  background: rgba(50, 47, 40, 0.7);
+  border: none;
 }
 
 .modalContent {
+  width: 800px;
   background-color: var(--primary-100);
   border-radius: var(--neutral-border-radius);
   box-shadow: var(--dark-box-shadow);
-  width: 800px;
 }
 
 .closeBtn {
   position: absolute;
-  right: 32px;
   top: 32px;
+  right: 32px;
 
   width: 32px;
   height: 32px;
 
   background-color: transparent;
   border: none;
-  padding: 0;
 
-  &:hover .closeIcon path {
-    fill: var(--neutral-400);
+  &:hover .closeIcon {
+    color: var(--neutral-400);
   }
 
-  &:active .closeIcon path {
-    fill: var(--neutral-500);
+  &:active .closeIcon {
+    color: var(--neutral-600);
   }
 }
 
 .closeIcon {
   width: 100%;
   height: 100%;
-
-  & path {
-    fill: var(--neutral-250);
-
-    transition: stroke var(--transition-medium);
-  }
+  color: var(--neutral-250);
 }

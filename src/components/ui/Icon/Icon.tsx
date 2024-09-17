@@ -6,9 +6,12 @@ type IconProps = React.SVGProps<SVGSVGElement> & {
   name: IconNameType;
 };
 
-const Icon: React.FC<IconProps> = ({ name, ...props }) => {
+const Icon: React.FC<IconProps> = (props) => {
+  const { name, ...otherProps } = props;
+
   const SvgComponent = svgComponents[name] || <svg></svg>;
-  return <SvgComponent {...props} />;
+
+  return <SvgComponent {...otherProps} />;
 };
 
 export default Icon;

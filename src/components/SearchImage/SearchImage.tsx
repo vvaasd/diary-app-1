@@ -3,7 +3,7 @@ import { useDebounce, useScrollTop } from '@/hooks';
 import { clsx, mapImages } from '@/utils';
 import { useEffect, useRef, useState } from 'react';
 import { StorageService, Api } from '@/services';
-import { ELocalStorageCurrentNoteKeys, ImageInfoType } from '@/types';
+import { ELocalStorageKeys, ImageInfoType, NoteType } from '@/types';
 import { DEFAULT_IMAGE_INFO } from '@/constants';
 import styles from './SearchImage.module.css';
 
@@ -11,26 +11,25 @@ type SearchImageProps = React.HTMLAttributes<HTMLDivElement> & {
   onSelectImage?: (info: ImageInfoType) => void;
 };
 
-const SearchImage: React.FC<SearchImageProps> = ({
-  className,
-  onSelectImage = () => {},
-}) => {
+const SearchImage: React.FC<SearchImageProps> = (props) => {
+  const { className, onSelectImage = () => {} } = props;
+
   const [inputValue, setInputValue] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [selectedImage, setSelectedImage] = useState<ImageInfoType>(
-    StorageService.get(ELocalStorageCurrentNoteKeys.imageInfo) ||
-      DEFAULT_IMAGE_INFO
+    (StorageService.get(ELocalStorageKeys.CurrentNote) as NoteType)
+      ?.imageInfo || DEFAULT_IMAGE_INFO,
   );
   const [currentImages, setCurrentImages] = useState<ImageInfoType[]>([]);
   const debouncedInputValue = useDebounce(inputValue, 400);
   const listWrapperRef = useRef<HTMLDivElement>(null);
   const isListScrolled = useScrollTop(listWrapperRef);
+
   const handleImageSelect = (info: ImageInfoType): void => {
     setSelectedImage(info);
 
     setTimeout(() => {
       onSelectImage(info);
-      StorageService.set(ELocalStorageCurrentNoteKeys.imageInfo, info);
     }, 200);
   };
 
@@ -91,8 +90,8 @@ const SearchImage: React.FC<SearchImageProps> = ({
           <Input
             placeholder={'Поиск'}
             className={styles.input}
-            onChange={(e) => {
-              handleInput(e.target.value);
+            onChange={(event) => {
+              handleInput(event.target.value);
             }}
             value={inputValue}
             onClear={() => {
@@ -106,7 +105,7 @@ const SearchImage: React.FC<SearchImageProps> = ({
         ref={listWrapperRef}
         className={clsx(
           styles.imagesListWrapper,
-          isListScrolled && styles.withShadow
+          isListScrolled && styles.withShadow,
         )}
       >
         {substituteImagesContent || (

@@ -1,6 +1,6 @@
 .wrapper {
-  display: flex;
   position: relative;
+  display: flex;
   flex-grow: 1;
 }
 
@@ -9,31 +9,30 @@
   height: 24px;
 }
 
-.calendar:hover + .icon path {
-  fill: var(--neutral-800);
+.calendar:hover + .icon {
+  color: var(--neutral-800);
 }
 
-.calendar:focus + .icon path {
-  fill: var(--neutral-900);
+.calendar:focus + .icon {
+  color: var(--neutral-900);
 }
 
 .calendar::-webkit-calendar-picker-indicator {
-  background-color: transparent;
-  opacity: 0;
+  cursor: pointer;
+
   width: 24px;
   height: 24px;
-  cursor: pointer;
+
+  opacity: 0;
+  background-color: transparent;
 }
 
 .icon {
-  position: absolute;
-  right: 18px;
-  top: 18px;
   pointer-events: none;
-}
 
-.icon path {
-  fill: var(--neutral-700);
+  position: absolute;
+  top: 18px;
+  right: 18px;
 
-  transition: fill var(--transition-medium);
+  color: var(--neutral-700);
 }

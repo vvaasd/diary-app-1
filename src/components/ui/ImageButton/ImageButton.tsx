@@ -12,29 +12,31 @@ type ImageButtonType = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   onClear?: () => void;
 };
 
-const ImageButton: React.FC<ImageButtonType> = ({
-  className,
-  imageSrc,
-  isSelected = false,
-  imageAlt,
-  imageType = EImageButtonType.Default,
-  onClick = () => {},
-  onClear = () => {},
-}) => {
+const ImageButton: React.FC<ImageButtonType> = (props) => {
+  const {
+    className,
+    isSelected = false,
+    imageSrc,
+    imageAlt,
+    imageType = EImageButtonType.Default,
+    onClick = () => {},
+    onClear = () => {},
+  } = props;
+
   const isImageDefault = imageSrc === defaultImageSrc;
   const isDefaultWithImage =
     imageType === EImageButtonType.Default && imageSrc && !isImageDefault;
 
   return (
     <button
-      type="button"
+      type={'button'}
       onClick={onClick}
       className={clsx(
         styles.btn,
         imageType === EImageButtonType.Default && styles.default,
         !isImageDefault && styles.withImage,
         isSelected && styles.selected,
-        className
+        className,
       )}
     >
       <img src={imageSrc} className={styles.image} alt={imageAlt} />
@@ -46,10 +48,15 @@ const ImageButton: React.FC<ImageButtonType> = ({
             onClear();
           }}
         >
-          <Icon name={'xMarkThick'} className={styles.clearIcon} />
+          <Icon
+            name={'xMarkThick'}
+            className={clsx(styles.clearIcon, 'colored')}
+          />
         </div>
       )}
-      {!isDefaultWithImage && <Icon name={'image'} className={styles.icon} />}
+      {!isDefaultWithImage && (
+        <Icon name={'image'} className={clsx(styles.icon, 'colored')} />
+      )}
     </button>
   );
 };

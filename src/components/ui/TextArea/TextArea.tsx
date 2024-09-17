@@ -3,17 +3,15 @@ import styles from './TextArea.module.css';
 
 type TextAreaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement>;
 
-const TextArea: React.FC<TextAreaProps> = ({
-  className,
-  placeholder,
-  ...props
-}) => {
+const TextArea: React.FC<TextAreaProps> = (props) => {
+  const { className, placeholder, ...otherProps } = props;
+
   return (
     <textarea
-      autoComplete="off"
+      autoComplete={'off'}
       placeholder={placeholder}
       className={clsx(styles.textarea, className)}
-      {...props}
+      {...otherProps}
     />
   );
 };

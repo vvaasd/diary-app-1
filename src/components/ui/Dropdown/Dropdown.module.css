@@ -1,26 +1,25 @@
 .dropdown {
-  box-sizing: border-box;
-  z-index: 1;
-  opacity: 0;
-  display: none;
   pointer-events: none;
 
   position: absolute;
+  z-index: 1;
 
-  outline: 1px solid var(--neutral-600);
-  border-radius: var(--bigger-border-radius);
+  display: none;
 
-  box-shadow: var(--dark-box-shadow);
+  box-sizing: border-box;
+
+  opacity: 0;
   background: var(--neutral-100);
-
-  padding: var(--bigger-border-radius);
+  border-radius: var(--bigger-border-radius);
+  outline: 1px solid var(--neutral-600);
+  box-shadow: var(--dark-box-shadow);
 
   transition: opacity var(--transition-medium);
 
   &.shown {
-    opacity: 1;
-    visibility: visible;
-    display: flex;
     pointer-events: unset;
+    display: flex;
+    visibility: visible;
+    opacity: 1;
   }
 }

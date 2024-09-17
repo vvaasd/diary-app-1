@@ -1,18 +1,15 @@
 .gridList {
   display: grid;
-  min-width: min-content;
-  grid-template-columns: repeat(2, 1fr);
   grid-gap: 20px;
+  grid-template-columns: repeat(2, 1fr);
 
-  margin: 0;
-  padding: 0;
-
+  min-width: min-content;
   padding-bottom: 40px;
 }
 
 .gridItem {
-  list-style: none;
   width: 350px;
+  list-style: none;
 
   &.vertical {
     grid-row: span 2;

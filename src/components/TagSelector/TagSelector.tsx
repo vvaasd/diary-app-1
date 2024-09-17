@@ -1,47 +1,43 @@
 import { useState, useRef } from 'react';
 import { Input, Dropdown, Tag } from '@/components';
 import { useClickOutside, useKeyDown } from '@/hooks';
-import { clsx, getTagsByText, upperCaseFirstLetter } from '@/utils';
-import { StorageService } from '@/services';
-import { ELocalStorageCurrentNoteKeys, EKeyboardKey } from '@/types';
+import { clsx, getTagsFromNotes, upperCaseFirstLetter } from '@/utils';
+import { EKeyboardKey, NoteType } from '@/types';
+import { setTags } from '@/store/slices/currentNote.slice';
+import { useAppSelector, useAppDispatch } from '@/store';
 import styles from './TagSelector.module.css';
-
-const DATA_ATTRIBUTES: Record<string, string> = {
-  dropdownBtn: 'dropdown-btn',
-  dropdownInput: 'dropdown-input',
-};
 
 type TagSelectorProps = React.HTMLAttributes<HTMLDivElement> & {
   disabled?: boolean;
 };
 
-const TagSelector: React.FC<TagSelectorProps> = ({ disabled = false }) => {
+const TagSelector: React.FC<TagSelectorProps> = (props) => {
+  const { disabled } = props;
+
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
-  const [inputValue, setInputValue] = useState<string>(
-    StorageService.get(ELocalStorageCurrentNoteKeys.tagsInput) || ''
+  const [inputValue, setInputValue] = useState<string>('');
+  const currentNote: NoteType = useAppSelector(
+    (state) => state.currentNote.currentNote,
   );
-  const [currentTags, setCurrentTags] = useState<string[]>(
-    StorageService.get(ELocalStorageCurrentNoteKeys.tags) || []
-  );
+  const notes: NoteType[] = useAppSelector((state) => state.notes.notes);
+  const dispatch = useAppDispatch();
+
+  const currentTags = currentNote.tags;
+
   const [dropdownTags, setDropdownTags] = useState<string[]>(
-    getTagsByText(inputValue, currentTags)
+    getTagsFromNotes(notes, inputValue, currentTags),
   );
   const [dropdownTabIndex, setDropdownTabIndex] = useState<number>(-1);
   const inputWithDropdownRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownListRef = useRef<HTMLUListElement>(null);
 
-  useClickOutside(() => {
-    setIsDropdownOpen(false);
-    handleFocusMove('out');
-  }, inputWithDropdownRef);
-
   const handleInput = (value: string): void => {
     if (disabled) {
       return;
     }
 
-    const tags = getTagsByText(value, currentTags);
+    const tags = getTagsFromNotes(notes, value, currentTags);
 
     if (tags.length === 0) {
       setIsDropdownOpen(false);
@@ -49,35 +45,43 @@ const TagSelector: React.FC<TagSelectorProps> = ({ disabled = false }) => {
       setIsDropdownOpen(true);
     }
 
-    StorageService.set(ELocalStorageCurrentNoteKeys.tagsInput, value);
     setInputValue(value);
     setDropdownTags(tags);
   };
 
   const handleChangeTag = (
     targetTag: string,
-    operation: 'delete' | 'add'
+    operation: 'delete' | 'add',
   ): void => {
-    const oldTags: string[] =
-      StorageService.get(ELocalStorageCurrentNoteKeys.tags) || [];
+    if (!targetTag && operation === 'add') {
+      return;
+    }
 
-    let newCurrentTags: string[] = [];
+    const oldTags: string[] = currentTags;
+
+    let newTags: string[] = [];
     if (operation === 'delete') {
-      newCurrentTags = oldTags.filter(
-        (oldTag) => oldTag.toLowerCase() !== targetTag.toLowerCase()
+      newTags = oldTags.filter(
+        (oldTag) => oldTag.toLowerCase() !== targetTag.toLowerCase(),
       );
     } else if (operation === 'add') {
       const lowerCaseOldTags = oldTags.map((tag) => tag.toLowerCase());
 
-      newCurrentTags = lowerCaseOldTags.includes(targetTag.toLowerCase())
+      newTags = lowerCaseOldTags.includes(targetTag.toLowerCase())
         ? oldTags
         : [...oldTags, targetTag];
     }
-    const newDropdownTags: string[] = getTagsByText(inputValue, newCurrentTags);
+    const newDropdownTags: string[] = getTagsFromNotes(
+      notes,
+      inputValue,
+      newTags,
+    );
 
-    StorageService.set(ELocalStorageCurrentNoteKeys.tags, newCurrentTags);
-    setCurrentTags(newCurrentTags);
     setDropdownTags(newDropdownTags);
+    dispatch(setTags(newTags));
+    if (newDropdownTags.length === 0) {
+      setIsDropdownOpen(false);
+    }
   };
 
   const handleEnter = (event: KeyboardEvent): void => {
@@ -85,38 +89,33 @@ const TagSelector: React.FC<TagSelectorProps> = ({ disabled = false }) => {
       return;
     }
 
-    const activeElementName =
-      document?.activeElement?.getAttribute('data-element-name');
+    const activeElement = document?.activeElement;
 
-    if (activeElementName === DATA_ATTRIBUTES.dropdownBtn) {
+    if (dropdownListRef.current?.contains(activeElement)) {
       handleFocusMove('out');
-      const inputElement = inputRef.current as HTMLInputElement;
-      inputElement.focus();
-
-      const button = getDropdownButtonByIndex(dropdownTabIndex);
-      if (button) {
-        button.click();
-      }
-    } else if (activeElementName === DATA_ATTRIBUTES.dropdownInput) {
+      inputRef.current?.focus();
+      const tag = dropdownTags[dropdownTabIndex];
+      handleChangeTag(tag, 'add');
+    } else if (inputRef.current?.contains(activeElement)) {
       event.preventDefault();
       handleChangeTag(inputValue, 'add');
       handleInput('');
     }
   };
 
-  const getDropdownButtonByIndex = (index: number) => {
+  const getDropdownButtonByIndex = (
+    index: number,
+  ): HTMLButtonElement | null => {
     if (dropdownListRef.current) {
-      const listItem = dropdownListRef.current.children[
-        index
-      ] as HTMLLIElement | null;
+      const listItem = dropdownListRef.current.children[index] as HTMLLIElement;
       if (listItem) {
-        return listItem.querySelector('button') as HTMLButtonElement | null;
+        return listItem.querySelector('button') as HTMLButtonElement;
       }
     }
     return null;
   };
 
-  const handleFocusMove = (moveType: 'up' | 'down' | 'out'): void => {
+  const handleFocusMove = (moveDirection: 'up' | 'down' | 'out'): void => {
     if (disabled) {
       return;
     }
@@ -124,7 +123,7 @@ const TagSelector: React.FC<TagSelectorProps> = ({ disabled = false }) => {
     const lastBtnIndex = dropdownTags.length - 1;
 
     let newIndex: number = -1;
-    if (moveType === 'up') {
+    if (moveDirection === 'up') {
       if (dropdownTabIndex === 0) {
         newIndex = lastBtnIndex;
       } else if (dropdownTabIndex === -1) {
@@ -132,13 +131,13 @@ const TagSelector: React.FC<TagSelectorProps> = ({ disabled = false }) => {
       } else {
         newIndex = dropdownTabIndex - 1;
       }
-    } else if (moveType === 'down') {
+    } else if (moveDirection === 'down') {
       if (dropdownTabIndex === lastBtnIndex) {
         newIndex = 0;
       } else {
         newIndex = dropdownTabIndex + 1;
       }
-    } else if (moveType === 'out') {
+    } else if (moveDirection === 'out') {
       setDropdownTabIndex(-1);
       return;
     }
@@ -150,16 +149,23 @@ const TagSelector: React.FC<TagSelectorProps> = ({ disabled = false }) => {
     setDropdownTabIndex(newIndex);
   };
 
-  useKeyDown(EKeyboardKey.enter, handleEnter);
+  useClickOutside(() => {
+    setIsDropdownOpen(false);
+    handleFocusMove('out');
+  }, inputWithDropdownRef);
 
   useKeyDown(EKeyboardKey.enter, handleEnter);
   useKeyDown(EKeyboardKey.arrowUp, (event) => {
-    event.preventDefault();
-    handleFocusMove('up');
+    if (isDropdownOpen) {
+      event.preventDefault();
+      handleFocusMove('up');
+    }
   });
   useKeyDown(EKeyboardKey.arrowDown, (event) => {
-    event.preventDefault();
-    handleFocusMove('down');
+    if (isDropdownOpen) {
+      event.preventDefault();
+      handleFocusMove('down');
+    }
   });
 
   return (
@@ -169,19 +175,19 @@ const TagSelector: React.FC<TagSelectorProps> = ({ disabled = false }) => {
           placeholder={'#теги'}
           className={clsx(styles.input, isDropdownOpen && styles.active)}
           onFocus={() => {
+            handleFocusMove('out');
             if (dropdownTags.length !== 0) {
               setIsDropdownOpen(true);
             }
           }}
-          onChange={(e) => {
-            handleInput(e.target.value);
+          onChange={(event) => {
+            handleInput(event.target.value);
           }}
           withClearBtn={true}
           onClear={() => {
             handleInput('');
           }}
           value={inputValue}
-          data-element-name={DATA_ATTRIBUTES.dropdownInput}
           ref={inputRef}
         />
         <Dropdown className={styles.dropdown} isOpen={isDropdownOpen}>
@@ -193,17 +199,16 @@ const TagSelector: React.FC<TagSelectorProps> = ({ disabled = false }) => {
                 (tag: string): React.ReactNode => (
                   <li key={tag} className={styles.dropdownElement}>
                     <button
-                      type="button"
+                      type={'button'}
                       className={styles.dropdownBtn}
                       onClick={() => {
                         handleChangeTag(tag, 'add');
                       }}
-                      data-element-name={DATA_ATTRIBUTES.dropdownBtn}
                     >
                       {upperCaseFirstLetter(tag)}
                     </button>
                   </li>
-                )
+                ),
               )}
             </ul>
           </div>
@@ -211,17 +216,16 @@ const TagSelector: React.FC<TagSelectorProps> = ({ disabled = false }) => {
       </div>
       {currentTags?.length > 0 && (
         <ul className={styles.tagList}>
-          {currentTags.map(
-            (tag: string): React.ReactNode => (
+          {currentTags.map((tag: string) => (
+            <li key={tag}>
               <Tag
                 name={tag}
                 onBtnClick={() => {
                   handleChangeTag(tag, 'delete');
                 }}
-                key={tag}
               />
-            )
-          )}
+            </li>
+          ))}
         </ul>
       )}
     </div>

@@ -6,9 +6,9 @@ const Footer: React.FC = () => (
       Проект выполнен в рамках стажировки&nbsp;
       <a
         className={styles.link}
-        href="https://preax.ru/"
-        target="_blank"
-        rel="noreferrer"
+        href={'https://preax.ru/'}
+        target={'_blank'}
+        rel={'noreferrer'}
       >
         PREAX
       </a>

@@ -10,22 +10,13 @@ type ModalProps = React.HTMLAttributes<HTMLDivElement> & {
   onClose?: () => void;
 };
 
-const Modal: React.FC<ModalProps> = ({
-  className,
-  children,
-  isOpen = false,
-  onClose = () => {},
-}) => {
+const Modal: React.FC<ModalProps> = (props) => {
+  const { className, children, isOpen = false, onClose = () => {} } = props;
+
   const contentRef = useRef<HTMLDivElement>(null);
   const closeBtnRef = useRef<HTMLButtonElement>(null);
 
-  const handleClose = () => {
-    if (isOpen) {
-      onClose();
-    }
-  };
-
-  useClickOutside(handleClose, contentRef, closeBtnRef);
+  useClickOutside(onClose, contentRef, closeBtnRef);
 
   useEffect(() => {
     const root = document.getElementById('root');
@@ -48,15 +39,15 @@ const Modal: React.FC<ModalProps> = ({
         {children}
       </div>
       <button
-        type="button"
+        type={'button'}
         className={styles.closeBtn}
-        onClick={handleClose}
+        onClick={onClose}
         ref={closeBtnRef}
       >
-        <Icon name={'xMark'} className={styles.closeIcon} />
+        <Icon name={'xMark'} className={clsx(styles.closeIcon, 'colored')} />
       </button>
     </div>,
-    document.getElementById('modal') as HTMLDivElement
+    document.getElementById('modal') as HTMLDivElement,
   );
 };
 

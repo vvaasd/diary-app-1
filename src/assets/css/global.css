@@ -1,9 +1,17 @@
+.container {
+  box-sizing: border-box;
+  min-width: 1280px;
+  padding-inline: 40px;
+}
+
 body {
-  font-family: 'Lato', sans-serif;
-  background-color: var(--primary-100);
-  color: var(--neutral-1000);
   max-width: 1500px;
   margin-inline: auto;
+
+  font-family: Lato, sans-serif;
+  color: var(--neutral-1000);
+
+  background-color: var(--primary-100);
 }
 
 button:disabled {
@@ -14,9 +22,22 @@ button:not(:disabled) {
   cursor: pointer;
 }
 
-.container {
-  box-sizing: border-box;
-  min-width: 1280px;
+svg.colored {
+  & *[fill],
+  & *[stroke] {
+    transition: color var(--transition-medium);
+  }
 
-  padding-inline: 40px;
+  & *[fill] {
+    fill: currentcolor;
+  }
+
+  & *[stroke] {
+    stroke: currentcolor;
+  }
+}
+
+img {
+  pointer-events: none;
+  user-select: none;
 }

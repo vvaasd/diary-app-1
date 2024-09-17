@@ -1,18 +1,18 @@
 .main {
-  box-sizing: border-box;
   display: flex;
-  justify-content: center;
   align-items: center;
-  min-height: calc(100vh - 120px - 58px);
+  justify-content: center;
 
+  box-sizing: border-box;
+  min-height: calc(100vh - 120px - 58px);
   padding-block: 20px;
 }
 
 .content {
   display: flex;
-  justify-content: center;
   flex-direction: column;
   gap: 36px;
+  justify-content: center;
 }
 
 .noDataIcon {
@@ -20,7 +20,7 @@
   height: 296px;
 }
 
-@media (max-height: 568px) {
+@media (height <= 568px) {
   .main {
     height: auto;
   }

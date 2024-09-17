@@ -10,66 +10,73 @@ import {
   Modal,
   SearchImage,
 } from '@/components';
-import { StorageService } from '@/services';
 import {
-  ELocalStorageCurrentNoteKeys,
   EButtonBgType,
   EImageButtonType,
   ImageInfoType,
+  NoteType,
 } from '@/types';
 import { DEFAULT_IMAGE_INFO } from '@/constants';
+import { pushNote } from '@/store/slices/notes.slice';
+import { setContentPage } from '@/store/slices/pages.slice';
+import {
+  resetCurrentNote,
+  setTitle,
+  setTextArea,
+  setDate,
+  setImageInfo,
+} from '@/store/slices/currentNote.slice';
+import { useAppSelector, useAppDispatch } from '@/store';
 import styles from './AddNote.module.css';
 
-type AddNoteProps = {
-  handleBtnClick: () => void;
-};
+type AddNoteProps = React.HTMLAttributes<HTMLDivElement>;
 
-const AddNote: React.FC<AddNoteProps> = ({ handleBtnClick }) => {
+const AddNote: React.FC<AddNoteProps> = () => {
   const [isImagesModalOpen, setIsImagesModalOpen] = useState<boolean>(false);
-  const [headerInputValue, setHeaderInputValue] = useState<string>(
-    StorageService.get(ELocalStorageCurrentNoteKeys.header) || ''
+  const notes: NoteType[] = useAppSelector((state) => state.notes.notes);
+  const currentNote: NoteType = useAppSelector(
+    (state) => state.currentNote.currentNote,
   );
-  const [textAreaValue, setTextAreaValue] = useState<string>(
-    StorageService.get(ELocalStorageCurrentNoteKeys.textArea) || ''
-  );
-  const [calendarValue, setCalendarValue] = useState<string>(
-    StorageService.get(ELocalStorageCurrentNoteKeys.date) || ''
-  );
-  const [currentImage, setCurrentImage] = useState<ImageInfoType>(
-    StorageService.get(ELocalStorageCurrentNoteKeys.imageInfo) ||
-      DEFAULT_IMAGE_INFO
+  const dispatch = useAppDispatch();
+
+  const isReadyToSubmit: boolean = Boolean(
+    currentNote.title && currentNote.description && currentNote.date,
   );
 
-  const handleChangeHeaderInputValue = (value: string): void => {
-    setHeaderInputValue(value);
-    StorageService.set(ELocalStorageCurrentNoteKeys.header, value);
+  const handleSubmit = (): void => {
+    const newNotes = [...notes, currentNote];
+
+    dispatch(pushNote(currentNote));
+
+    handleNoteReset();
+    dispatch(setContentPage());
+    console.log(newNotes);
   };
 
-  const handleChangeTextAreaValue = (value: string): void => {
-    setTextAreaValue(value);
-    StorageService.set(ELocalStorageCurrentNoteKeys.textArea, value);
+  const handleChangeTitleInput = (value: string): void => {
+    dispatch(setTitle(value));
   };
 
-  const handleChangeCalendarValue = (value: string): void => {
-    setCalendarValue(value);
-    StorageService.set(ELocalStorageCurrentNoteKeys.date, value);
+  const handleChangeTextAreaInput = (value: string): void => {
+    dispatch(setTextArea(value));
+  };
+
+  const handleChangeCalendar = (value: string): void => {
+    dispatch(setDate(value));
   };
 
   const handleChangeImage = (info: ImageInfoType): void => {
-    setCurrentImage(info);
     setIsImagesModalOpen(false);
-    // в LS значение кладется на уровне SearchImage
+    dispatch(setImageInfo(info));
   };
 
-  const handleClearImageSrc = (): void => {
-    setCurrentImage(DEFAULT_IMAGE_INFO);
-    StorageService.remove(ELocalStorageCurrentNoteKeys.imageInfo);
+  const handleClearImage = (): void => {
+    dispatch(setImageInfo(DEFAULT_IMAGE_INFO));
   };
 
   const handleNoteReset = (): void => {
-    handleBtnClick();
-
-    StorageService.removeByObject(ELocalStorageCurrentNoteKeys);
+    dispatch(resetCurrentNote());
+    dispatch(setContentPage());
   };
 
   return (
@@ -82,59 +89,69 @@ const AddNote: React.FC<AddNoteProps> = ({ handleBtnClick }) => {
       >
         <SearchImage onSelectImage={handleChangeImage} />
       </Modal>
-      <main className={styles.main}>
-        <form action="" className={styles.fieldBlocks}>
-          <div className={styles.block}>
-            <Input
-              placeholder={'Заголовок'}
-              onChange={(e) => {
-                handleChangeHeaderInputValue(e.target.value);
-              }}
-              value={headerInputValue}
-            />
-            <TextArea
-              placeholder={'Описание'}
-              onChange={(e) => {
-                handleChangeTextAreaValue(e.target.value);
-              }}
-              value={textAreaValue}
-            />
-          </div>
-          <div className={styles.block}>
-            <div className={styles.calendarAndSelector}>
-              <Calendar
-                onChange={(e) => {
-                  handleChangeCalendarValue(e.target.value);
+      <main>
+        <form className={styles.wrapper}>
+          <div className={styles.fieldBlocks}>
+            <div className={styles.block}>
+              <Input
+                placeholder={'Заголовок'}
+                onChange={(event) => {
+                  handleChangeTitleInput(event.target.value);
                 }}
-                value={calendarValue}
+                value={currentNote.title}
+                required
               />
-              <Selector />
+              <TextArea
+                placeholder={'Описание'}
+                onChange={(event) => {
+                  handleChangeTextAreaInput(event.target.value);
+                }}
+                value={currentNote.description}
+                required
+              />
             </div>
-            <ImageButton
-              onClick={() => {
-                setIsImagesModalOpen(true);
-              }}
-              imageSrc={currentImage.src}
-              imageAlt={currentImage.alt}
-              imageType={EImageButtonType.Default}
-              onClear={handleClearImageSrc}
-            />
-            <TagSelector disabled={isImagesModalOpen} />
+            <div className={styles.block}>
+              <div className={styles.calendarAndSelector}>
+                <Calendar
+                  onChange={(event) => {
+                    handleChangeCalendar(event.target.value);
+                  }}
+                  value={currentNote.date}
+                  required
+                />
+                <Selector />
+              </div>
+              <ImageButton
+                onClick={() => {
+                  setIsImagesModalOpen(true);
+                }}
+                imageSrc={currentNote.imageInfo.src}
+                imageAlt={currentNote.imageInfo.alt}
+                imageType={EImageButtonType.Default}
+                onClear={handleClearImage}
+              />
+              <TagSelector disabled={isImagesModalOpen} />
+            </div>
           </div>
-        </form>
-        <ul className={styles.btns}>
-          <li className={styles.btn}>
-            <Button type={'submit'} iconName={'edit'} text={'Создать запись'} />
-          </li>
-          <li className={styles.btn}>
+          <div className={styles.btns}>
+            <Button
+              type={'submit'}
+              iconName={'edit'}
+              text={'Создать запись'}
+              onClick={(event) => {
+                event.preventDefault();
+                handleSubmit();
+              }}
+              disabled={!isReadyToSubmit}
+            />
             <Button
               type={'reset'}
               text={'Отменить'}
               backgroundType={EButtonBgType.Neutral}
               onClick={handleNoteReset}
             />
-          </li>
-        </ul>
+          </div>
+        </form>
       </main>
     </>
   );

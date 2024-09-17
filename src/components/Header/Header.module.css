@@ -1,12 +1,11 @@
 .header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   padding-block: 40px 20px;
 }
 
 .logoBtn {
-  padding: 0;
   background-color: transparent;
   border: none;
 }

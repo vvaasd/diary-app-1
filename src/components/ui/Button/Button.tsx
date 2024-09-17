@@ -9,24 +9,28 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   backgroundType?: EButtonBgType;
 };
 
-const Button: React.FC<ButtonProps> = ({
-  text,
-  iconName,
-  className,
-  backgroundType = EButtonBgType.Primary,
-  ...props
-}) => {
+const Button: React.FC<ButtonProps> = (props) => {
+  const {
+    text,
+    iconName,
+    className,
+    backgroundType = EButtonBgType.Primary,
+    ...otherProps
+  } = props;
+
   return (
     <button
-      type="button"
+      type={'button'}
       className={clsx(
         styles.btn,
         backgroundType === EButtonBgType.Neutral && styles.neutral,
-        className
+        className,
       )}
-      {...props}
+      {...otherProps}
     >
-      {iconName && <Icon name={iconName} className={styles.icon}></Icon>}
+      {iconName && (
+        <Icon name={iconName} className={clsx('colored', styles.icon)}></Icon>
+      )}
       {text && <span className={styles.text}>{text}</span>}
     </button>
   );

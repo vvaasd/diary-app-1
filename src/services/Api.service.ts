@@ -10,9 +10,9 @@ const URL_PAGES = {
 
 class Api {
   static async fetchImagesByQuery(
-    query: string
+    query: string,
   ): Promise<ResultsImageFetchType> {
-    const options = {
+    const options: RequestInit = {
       headers: {
         Authorization: `Client-ID ${import.meta.env.VITE_UNSPLASH_API_KEY}`,
       },
@@ -30,7 +30,7 @@ class Api {
       const response = await fetch(url, options);
       if (!response.ok) {
         return Promise.reject(
-          'Network response was not ok ' + response.statusText
+          'Network response was not ok ' + response.statusText,
         );
       }
 

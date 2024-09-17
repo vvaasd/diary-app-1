@@ -3,7 +3,7 @@ import { EKeyboardKey } from '@/types';
 
 const useKeyDown = (
   targetKey: EKeyboardKey,
-  callback: (event: KeyboardEvent) => void
+  callback: (event: KeyboardEvent) => void,
 ): void => {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent): void => {

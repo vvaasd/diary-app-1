@@ -8,43 +8,43 @@ type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   onClear?: () => void;
 };
 
-const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  (
-    {
-      className,
-      placeholder,
-      withClearBtn = false,
-      onClear = () => {},
-      ...props
-    },
-    ref
-  ) => {
-    return (
-      <>
-        <input
-          type="text"
-          placeholder={placeholder}
-          className={clsx(
-            styles.input,
-            withClearBtn && styles.withClearBtn,
-            className
-          )}
-          ref={ref}
-          {...props}
-        />
-        {withClearBtn && (
-          <button
-            type="button"
-            onClick={onClear}
-            className={styles.inputClearBtn}
-            tabIndex={props?.value ? 0 : -1}
-          >
-            <Icon name={'xMark'} className={styles.inputClearIcon} />
-          </button>
+const Input = React.forwardRef<HTMLInputElement, InputProps>((props, ref) => {
+  const {
+    className,
+    placeholder,
+    withClearBtn = false,
+    onClear = () => {},
+    ...otherProps
+  } = props;
+
+  return (
+    <>
+      <input
+        type={'text'}
+        placeholder={placeholder}
+        className={clsx(
+          styles.input,
+          withClearBtn && styles.withClearBtn,
+          className,
         )}
-      </>
-    );
-  }
-);
+        ref={ref}
+        {...otherProps}
+      />
+      {withClearBtn && (
+        <button
+          type={'button'}
+          onClick={onClear}
+          className={styles.inputClearBtn}
+          tabIndex={props?.value ? 0 : -1}
+        >
+          <Icon
+            name={'xMark'}
+            className={clsx(styles.inputClearIcon, 'colored')}
+          />
+        </button>
+      )}
+    </>
+  );
+});
 
 export default Input;
