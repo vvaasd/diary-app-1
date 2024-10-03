@@ -1,0 +1,90 @@
+.tagElement {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+
+  padding: 4px 12px;
+
+  list-style: none;
+
+  background-color: var(--neutral-750-06);
+  border-radius: var(--smaller-border-radius);
+  box-shadow: var(--dark-box-shadow);
+
+  transition: background-color var(--transition-medium);
+
+  &.interactive {
+    background-color: var(--neutral-300);
+
+    @media (hover: hover) {
+      &:hover {
+        background-color: var(--neutral-500);
+      }
+
+      &:hover > .tagText {
+        color: var(--neutral-1000);
+      }
+
+      &:hover .tagBtnIcon {
+        color: var(--neutral-1000);
+      }
+    }
+
+    &.active {
+      background-color: var(--neutral-600) !important;
+    }
+
+    & .tagText {
+      max-width: calc(100% - 16px);
+    }
+  }
+
+  &.tiny {
+    padding-inline: 8px;
+
+    & .tagText {
+      font-size: 12px;
+      line-height: 14px;
+    }
+  }
+
+  &.skeleton {
+    width: 50px;
+    height: 14px;
+  }
+}
+
+.tagText {
+  overflow: hidden;
+
+  box-sizing: border-box;
+
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: var(--neutral-900);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  transition: color var(--transition-medium);
+
+  &:not(.noSharp, .skeleton)::before {
+    content: '#';
+  }
+}
+
+.tagBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 12px;
+  height: 12px;
+
+  background-color: transparent;
+  border: none;
+}
+
+.tagBtnIcon {
+  color: var(--neutral-900);
+}

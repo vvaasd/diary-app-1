@@ -1,0 +1,43 @@
+.container {
+  box-sizing: border-box;
+  min-width: 1280px;
+  padding-inline: 40px;
+}
+
+body {
+  max-width: 1500px;
+  margin-inline: auto;
+
+  font-family: Lato, sans-serif;
+  color: var(--neutral-1000);
+
+  background-color: var(--primary-100);
+}
+
+button:disabled {
+  pointer-events: none;
+}
+
+button:not(:disabled) {
+  cursor: pointer;
+}
+
+svg.colored {
+  & *[fill],
+  & *[stroke] {
+    transition: color var(--transition-medium);
+  }
+
+  & *[fill] {
+    fill: currentcolor;
+  }
+
+  & *[stroke] {
+    stroke: currentcolor;
+  }
+}
+
+img {
+  pointer-events: none;
+  user-select: none;
+}

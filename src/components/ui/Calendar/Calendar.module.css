@@ -1,0 +1,46 @@
+.wrapper {
+  position: relative;
+  display: flex;
+  flex-grow: 1;
+
+  @media (hover: hover) {
+    & :hover + .icon {
+      color: var(--neutral-800);
+    }
+  }
+
+  &:focus-within {
+    & .input {
+      outline: 1px solid var(--neutral-600);
+    }
+
+    & .icon {
+      color: var(--neutral-900);
+    }
+  }
+}
+
+.input {
+  flex-grow: 1;
+  height: 24px;
+
+  &::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+
+    width: 24px;
+    height: 24px;
+
+    opacity: 0;
+    background-color: transparent;
+  }
+}
+
+.icon {
+  pointer-events: none;
+
+  position: absolute;
+  top: 18px;
+  right: 18px;
+
+  color: var(--neutral-700);
+}

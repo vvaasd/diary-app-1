@@ -1,0 +1,65 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: 40px;
+
+  height: calc(100vh - 80px);
+}
+
+.searchWrapper {
+  padding: 40px;
+  padding-bottom: 0;
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+}
+
+.input {
+  flex-grow: 1;
+}
+
+.imagesListWrapper {
+  overflow: hidden auto;
+  flex-grow: 1;
+  padding-inline: 40px;
+  transition: box-shadow var(--transition-medium);
+}
+
+.substituteContentWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-sizing: border-box;
+  min-height: 100%;
+  padding-bottom: 40px;
+}
+
+.withShadow {
+  box-shadow: inset 0 2px 8px 0 rgb(0 0 0 / 12%);
+}
+
+.notFound {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  justify-content: center;
+}
+
+.notFoundIcon {
+  margin-inline: auto;
+}
+
+.notFoundText {
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 24px;
+  color: var(--neutral-1000);
+}
+
+.preloader {
+  transform: scale(0.75);
+}

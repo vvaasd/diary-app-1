@@ -1,0 +1,39 @@
+.textarea {
+  resize: none;
+
+  flex-grow: 1;
+
+  box-sizing: border-box;
+  min-height: 340px;
+  padding: 16px;
+
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 24px;
+  color: var(--neutral-1000);
+
+  background: var(--neutral-100);
+  border: none;
+  border-radius: var(--bigger-border-radius);
+  outline-color: transparent;
+  box-shadow: var(--dark-box-shadow);
+
+  transition: outline-color var(--transition-medium);
+
+  &::placeholder {
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 24px;
+    color: var(--neutral-800);
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      outline: 1px solid var(--neutral-500);
+    }
+  }
+
+  &:focus {
+    outline: 1px solid var(--neutral-600);
+  }
+}

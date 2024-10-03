@@ -1,0 +1,19 @@
+.wrapper {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.icon {
+  width: 60px;
+  height: 60px;
+  box-shadow: var(--neutral-box-shadow);
+}
+
+.text {
+  font-size: 34px;
+  font-weight: 900;
+  line-height: 60px;
+  color: var(--neutral-1000);
+  letter-spacing: 0.04em;
+}

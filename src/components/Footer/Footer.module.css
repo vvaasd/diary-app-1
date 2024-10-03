@@ -1,0 +1,21 @@
+.footer {
+  padding-bottom: 40px;
+}
+
+.text {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 18px;
+  color: var(--neutral-800);
+}
+
+.link:active,
+.link:visited {
+  color: inherit;
+  color: var(--neutral-800);
+}
+
+.link {
+  color: var(--neutral-800);
+  text-underline-offset: 4px;
+}

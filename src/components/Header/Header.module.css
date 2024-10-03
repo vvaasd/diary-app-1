@@ -1,0 +1,13 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  height: 60px;
+  padding-block: 40px 20px;
+}
+
+.logoBtn {
+  background-color: transparent;
+  border: none;
+}

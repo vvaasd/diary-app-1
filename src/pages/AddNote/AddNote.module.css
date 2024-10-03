@@ -1,0 +1,38 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+
+  box-sizing: border-box;
+  width: 100%;
+  min-height: calc(100vh - 120px - 58px);
+  padding-block: 20px 40px;
+}
+
+.fieldBlocks {
+  display: flex;
+  gap: 40px;
+}
+
+.block {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: 40px;
+}
+
+.fieldBlocks .block:nth-child(2) {
+  flex-grow: 0;
+  width: 380px;
+}
+
+.calendarAndSelector {
+  display: flex;
+  flex-grow: 1;
+  gap: 20px;
+}
+
+.btns {
+  display: flex;
+  gap: 20px;
+}

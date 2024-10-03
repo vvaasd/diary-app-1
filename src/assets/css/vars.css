@@ -1,0 +1,29 @@
+:root {
+  --neutral-100-06: rgb(255 255 255 / 60%);
+  --neutral-100-09: rgb(255 255 255 / 90%);
+  --neutral-100: #ffffff;
+  --neutral-200: #f2f2f2;
+  --neutral-250: #f1f1f1;
+  --neutral-300: #e9eaea;
+  --neutral-400: #e6e6e6;
+  --neutral-500: #e0e0e0;
+  --neutral-600: #cacacb;
+  --neutral-700: #9fa0a1;
+  --neutral-750-06: rgb(202 202 203 / 60%);
+  --neutral-800: #747576;
+  --neutral-900: #494b4c;
+  --neutral-1000: #1e2022;
+  --primary-100: #fdfcf3;
+  --primary-300: #ffef9e;
+  --primary-400: #ffe55e;
+  --primary-450: #f5db54;
+  --primary-500: #ebd14a;
+  --primary-600: #d2aa1b;
+  --smaller-border-radius: 8px;
+  --neutral-border-radius: 10px;
+  --bigger-border-radius: 12px;
+  --neutral-box-shadow: 0 0 10px 0 rgb(161 132 132 / 10%);
+  --small-dark-box-shadow: 0 0 4px 0 rgb(0 0 0 / 10%);
+  --dark-box-shadow: 0 0 10px 0 rgb(0 0 0 / 10%);
+  --transition-medium: 0.2s ease-in-out;
+}
