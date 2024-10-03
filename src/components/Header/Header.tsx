@@ -1,5 +1,5 @@
 import { Logo, Button } from '@/components';
-import { setAddNotePage, setContentPage } from '@/store/slices/pages.slice';
+import { setAddNotePage, setContentPage } from '@/store/slices/page.slice';
 import { useAppDispatch } from '@/store';
 import styles from './Header.module.css';
 

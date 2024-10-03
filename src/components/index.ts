@@ -16,3 +16,5 @@ export { default as Tag } from './ui/Tag/Tag';
 export { default as Modal } from './ui/Modal/Modal';
 export { default as ImagesList } from './ui/ImagesList/ImagesList';
 export { default as Preloader } from './ui/Preloader/Preloader';
+export { default as NotesList } from './ui/NotesList/NotesList';
+export { default as NotesItem } from './ui/NotesItem/NotesItem';

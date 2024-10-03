@@ -23,8 +23,6 @@
 
 .fieldBlocks .block:nth-child(2) {
   flex-grow: 0;
-
-  /* width: 26.8%; */
   width: 380px;
 }
 

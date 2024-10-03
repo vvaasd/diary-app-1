@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { StorageService } from '@/services';
-import type { PayloadAction } from '@reduxjs/toolkit';
-import { NoteType, ELocalStorageKeys, ImageInfoType } from '@/types';
+import { PayloadAction } from '@reduxjs/toolkit';
+import { NoteType, LocalStorageKeysEnum, ImageInfoType } from '@/types';
 import { EMPTY_NOTE } from '@/constants';
 
 export interface ICurrentNoteState {
@@ -9,11 +9,12 @@ export interface ICurrentNoteState {
 }
 
 const initialState: ICurrentNoteState = {
-  currentNote: StorageService.get(ELocalStorageKeys.CurrentNote) || EMPTY_NOTE,
+  currentNote:
+    StorageService.get(LocalStorageKeysEnum.CurrentNote) || EMPTY_NOTE,
 };
 
 const updateLSCurrentNote = (note: NoteType) => {
-  StorageService.set(ELocalStorageKeys.CurrentNote, note);
+  StorageService.set(LocalStorageKeysEnum.CurrentNote, note);
 };
 
 const currentNoteSlice = createSlice({

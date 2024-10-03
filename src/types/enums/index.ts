@@ -1,5 +1,4 @@
-export { EKeyboardKey } from './EKeyboardKey';
-export { ELocalStorageKeys } from './ELocalStorageKeys';
-export { EImageButtonType } from './EImageButtonType';
-export { EButtonBgType } from './EButtonBgType';
-export { EPages } from './EPages';
+export { KeyboardKeyEnum } from './KeyboardKeyEnum';
+export { LocalStorageKeysEnum } from './LocalStorageKeysEnum';
+export { PagesEnum } from './PagesEnum';
+export { BreakpointsEnum } from './BreakpointsEnum';

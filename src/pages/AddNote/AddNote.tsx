@@ -10,15 +10,10 @@ import {
   Modal,
   SearchImage,
 } from '@/components';
-import {
-  EButtonBgType,
-  EImageButtonType,
-  ImageInfoType,
-  NoteType,
-} from '@/types';
+import { ImageInfoType, NoteType, NoteWithIdType } from '@/types';
 import { DEFAULT_IMAGE_INFO } from '@/constants';
 import { pushNote } from '@/store/slices/notes.slice';
-import { setContentPage } from '@/store/slices/pages.slice';
+import { setContentPage } from '@/store/slices/page.slice';
 import {
   resetCurrentNote,
   setTitle,
@@ -28,12 +23,13 @@ import {
 } from '@/store/slices/currentNote.slice';
 import { useAppSelector, useAppDispatch } from '@/store';
 import styles from './AddNote.module.css';
+import { generateId } from '@/utils';
 
 type AddNoteProps = React.HTMLAttributes<HTMLDivElement>;
 
 const AddNote: React.FC<AddNoteProps> = () => {
   const [isImagesModalOpen, setIsImagesModalOpen] = useState<boolean>(false);
-  const notes: NoteType[] = useAppSelector((state) => state.notes.notes);
+  const notes: NoteWithIdType[] = useAppSelector((state) => state.notes.notes);
   const currentNote: NoteType = useAppSelector(
     (state) => state.currentNote.currentNote,
   );
@@ -44,13 +40,12 @@ const AddNote: React.FC<AddNoteProps> = () => {
   );
 
   const handleSubmit = (): void => {
-    const newNotes = [...notes, currentNote];
+    const existingNotesIds = notes.map((note) => note.id);
 
-    dispatch(pushNote(currentNote));
+    dispatch(pushNote({ ...currentNote, id: generateId(existingNotesIds) }));
 
     handleNoteReset();
     dispatch(setContentPage());
-    console.log(newNotes);
   };
 
   const handleChangeTitleInput = (value: string): void => {
@@ -127,7 +122,7 @@ const AddNote: React.FC<AddNoteProps> = () => {
                 }}
                 imageSrc={currentNote.imageInfo.src}
                 imageAlt={currentNote.imageInfo.alt}
-                imageType={EImageButtonType.Default}
+                imageType={'default'}
                 onClear={handleClearImage}
               />
               <TagSelector disabled={isImagesModalOpen} />
@@ -147,7 +142,7 @@ const AddNote: React.FC<AddNoteProps> = () => {
             <Button
               type={'reset'}
               text={'Отменить'}
-              backgroundType={EButtonBgType.Neutral}
+              backgroundType={'neutral'}
               onClick={handleNoteReset}
             />
           </div>

@@ -3,6 +3,18 @@
   "rules": {
     "color-hex-length": "long",
     "selector-class-pattern": null,
-    "no-descending-specificity": null
+    "no-descending-specificity": null,
+    "order/order": [
+      [
+        "custom-properties",
+        "declarations"
+      ],
+      {
+        "disableFix": true,
+        "unspecified": "ignore"
+      }
+    ]
   }
 }
+
+

@@ -15,11 +15,13 @@ const getTagsFromNotes = (
   const lowerCaseText = text.toLowerCase();
   const lowerCaseExceptionTags = exceptionTags.map((tag) => tag.toLowerCase());
 
-  return tags.filter(
-    (tag) =>
-      tag.indexOf(lowerCaseText) !== -1 &&
-      !lowerCaseExceptionTags.includes(tag.toLowerCase()),
-  );
+  return tags.filter((tag) => {
+    const lowerCaseTag = tag.toLowerCase();
+    return (
+      lowerCaseTag.indexOf(lowerCaseText) !== -1 &&
+      !lowerCaseExceptionTags.includes(lowerCaseTag)
+    );
+  });
 };
 
 export default getTagsFromNotes;

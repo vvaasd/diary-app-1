@@ -1,8 +1,8 @@
 import { mapParams } from '@/utils';
 import { ResultsImageFetchType } from '@/types/ResultsImageFetchType';
 
-const RAW_URL = 'https://api.unsplash.com';
 const IMAGES_PER_PAGE = 10;
+const RAW_URL = 'https://api.unsplash.com';
 const URL_PAGES = {
   searchImages: '/search/photos',
   randomImages: '/photos/random',

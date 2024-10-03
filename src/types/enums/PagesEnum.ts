@@ -1,4 +1,4 @@
-export enum EPages {
+export enum PagesEnum {
   Content = 'content',
   AddNote = 'addNote',
 }

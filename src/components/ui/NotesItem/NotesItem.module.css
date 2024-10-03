@@ -1,0 +1,159 @@
+.wrapper {
+  position: relative;
+
+  overflow: hidden;
+
+  height: 200px;
+
+  border-radius: var(--bigger-border-radius);
+  box-shadow: var(--neutral-box-shadow);
+}
+
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card {
+  position: absolute;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  width: 40px;
+  height: 40px;
+
+  background-color: var(--neutral-100-06);
+  backdrop-filter: blur(2px);
+  border-radius: var(--bigger-border-radius);
+  box-shadow: var(--small-dark-box-shadow);
+}
+
+.date {
+  top: 12px;
+  left: 12px;
+}
+
+.dateNumber {
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 14px;
+  color: var(--neutral-1000);
+}
+
+.dateMonth {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 12px;
+  color: var(--neutral-1000);
+}
+
+.emoji {
+  top: 12px;
+  right: 12px;
+
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 24px;
+}
+
+.info {
+  position: absolute;
+  bottom: 0;
+
+  display: flex;
+  flex-direction: column;
+  row-gap: 4px;
+
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px;
+  padding-bottom: 8px;
+
+  background-color: var(--neutral-100-09);
+  border-radius: var(--neutral-border-radius);
+  box-shadow: var(--small-dark-box-shadow);
+}
+
+.title {
+  overflow: hidden;
+  display: -webkit-box;
+  display: -moz-box;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  -moz-line-clamp: 1;
+
+  width: 100%;
+
+  font-size: 18px;
+  font-weight: 900;
+  line-height: 22px;
+  color: var(--neutral-1000);
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+}
+
+.tagList {
+  display: flex;
+  column-gap: 8px;
+  padding-block: 4px;
+
+  &.raw {
+    pointer-events: none;
+    user-select: none;
+
+    position: absolute;
+
+    visibility: hidden;
+    opacity: 0;
+  }
+}
+
+.description {
+  overflow: hidden;
+  display: -webkit-box;
+  display: -moz-box;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  -moz-line-clamp: 3;
+
+  width: 100%;
+
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 18px;
+  color: var(--neutral-1000);
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+}
+
+.tinyTagWrapperModel {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+
+  padding: 4px 8px;
+
+  list-style: none;
+}
+
+.tinyTagTextModel {
+  overflow: hidden;
+
+  box-sizing: border-box;
+
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 14px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  &::before {
+    content: '#';
+  }
+}

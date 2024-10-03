@@ -35,8 +35,10 @@
   background-color: transparent;
   border: none;
 
-  &:hover .closeIcon {
-    color: var(--neutral-400);
+  @media (hover: hover) {
+    &:hover .closeIcon {
+      color: var(--neutral-400);
+    }
   }
 
   &:active .closeIcon {

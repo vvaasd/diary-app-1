@@ -1,6 +1,5 @@
 import { Icon } from '@/components';
 import { clsx } from '@/utils';
-import { EImageButtonType } from '@/types';
 import defaultImageSrc from '@/assets/img/theme-image.jpg';
 import styles from './ImageButton.module.css';
 
@@ -8,7 +7,7 @@ type ImageButtonType = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   imageSrc: string;
   imageAlt: string;
   isSelected?: boolean;
-  imageType?: EImageButtonType;
+  imageType?: 'default' | 'picture';
   onClear?: () => void;
 };
 
@@ -18,14 +17,14 @@ const ImageButton: React.FC<ImageButtonType> = (props) => {
     isSelected = false,
     imageSrc,
     imageAlt,
-    imageType = EImageButtonType.Default,
+    imageType = 'default',
     onClick = () => {},
     onClear = () => {},
   } = props;
 
   const isImageDefault = imageSrc === defaultImageSrc;
   const isDefaultWithImage =
-    imageType === EImageButtonType.Default && imageSrc && !isImageDefault;
+    imageType === 'default' && imageSrc && !isImageDefault;
 
   return (
     <button
@@ -33,7 +32,7 @@ const ImageButton: React.FC<ImageButtonType> = (props) => {
       onClick={onClick}
       className={clsx(
         styles.btn,
-        imageType === EImageButtonType.Default && styles.default,
+        imageType === 'default' && styles.default,
         !isImageDefault && styles.withImage,
         isSelected && styles.selected,
         className,

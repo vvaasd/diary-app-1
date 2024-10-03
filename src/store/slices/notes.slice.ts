@@ -1,27 +1,34 @@
 import { createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
-import { ELocalStorageKeys, type NoteType } from '@/types';
+import { PayloadAction } from '@reduxjs/toolkit';
+import { LocalStorageKeysEnum, NoteWithIdType } from '@/types';
 import { StorageService } from '@/services';
+import { sortNotes } from '@/utils';
 
 export interface INotesState {
-  notes: NoteType[];
+  notes: NoteWithIdType[];
 }
 
 const initialState: INotesState = {
-  notes: StorageService.get(ELocalStorageKeys.Notes) || [],
+  notes: StorageService.get(LocalStorageKeysEnum.Notes) || [],
 };
 
-const updateLSNotes = (notes: NoteType[]) => {
-  StorageService.set(ELocalStorageKeys.Notes, notes);
+const updateLSNotes = (notes: NoteWithIdType[]) => {
+  StorageService.set(LocalStorageKeysEnum.Notes, notes);
 };
 
 const notesSlice = createSlice({
   name: 'notes',
   initialState,
   reducers: {
-    pushNote: (state, action: PayloadAction<NoteType>) => {
-      state.notes = [...state.notes, action.payload];
-      updateLSNotes(state.notes);
+    pushNote: (state, action: PayloadAction<NoteWithIdType>) => {
+      const newNote: NoteWithIdType = {
+        ...action.payload,
+        createdAt: new Date().toISOString(),
+      };
+
+      const sortedNewNotes = sortNotes([...state.notes, newNote]);
+      state.notes = sortedNewNotes;
+      updateLSNotes(sortedNewNotes);
     },
   },
 });

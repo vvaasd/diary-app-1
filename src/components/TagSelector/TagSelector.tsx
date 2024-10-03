@@ -1,8 +1,8 @@
 import { useState, useRef } from 'react';
 import { Input, Dropdown, Tag } from '@/components';
 import { useClickOutside, useKeyDown } from '@/hooks';
-import { clsx, getTagsFromNotes, upperCaseFirstLetter } from '@/utils';
-import { EKeyboardKey, NoteType } from '@/types';
+import { clsx, getTagsFromNotes } from '@/utils';
+import { KeyboardKeyEnum, NoteType, NoteWithIdType } from '@/types';
 import { setTags } from '@/store/slices/currentNote.slice';
 import { useAppSelector, useAppDispatch } from '@/store';
 import styles from './TagSelector.module.css';
@@ -19,7 +19,7 @@ const TagSelector: React.FC<TagSelectorProps> = (props) => {
   const currentNote: NoteType = useAppSelector(
     (state) => state.currentNote.currentNote,
   );
-  const notes: NoteType[] = useAppSelector((state) => state.notes.notes);
+  const notes: NoteWithIdType[] = useAppSelector((state) => state.notes.notes);
   const dispatch = useAppDispatch();
 
   const currentTags = currentNote.tags;
@@ -154,14 +154,14 @@ const TagSelector: React.FC<TagSelectorProps> = (props) => {
     handleFocusMove('out');
   }, inputWithDropdownRef);
 
-  useKeyDown(EKeyboardKey.enter, handleEnter);
-  useKeyDown(EKeyboardKey.arrowUp, (event) => {
+  useKeyDown(KeyboardKeyEnum.enter, handleEnter);
+  useKeyDown(KeyboardKeyEnum.arrowUp, (event) => {
     if (isDropdownOpen) {
       event.preventDefault();
       handleFocusMove('up');
     }
   });
-  useKeyDown(EKeyboardKey.arrowDown, (event) => {
+  useKeyDown(KeyboardKeyEnum.arrowDown, (event) => {
     if (isDropdownOpen) {
       event.preventDefault();
       handleFocusMove('down');
@@ -205,7 +205,7 @@ const TagSelector: React.FC<TagSelectorProps> = (props) => {
                         handleChangeTag(tag, 'add');
                       }}
                     >
-                      {upperCaseFirstLetter(tag)}
+                      {tag}
                     </button>
                   </li>
                 ),
@@ -217,12 +217,13 @@ const TagSelector: React.FC<TagSelectorProps> = (props) => {
       {currentTags?.length > 0 && (
         <ul className={styles.tagList}>
           {currentTags.map((tag: string) => (
-            <li key={tag}>
+            <li className={styles.tagItem} key={tag}>
               <Tag
                 name={tag}
                 onBtnClick={() => {
                   handleChangeTag(tag, 'delete');
                 }}
+                isInteractive={true}
               />
             </li>
           ))}

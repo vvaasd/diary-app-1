@@ -1,12 +1,12 @@
 import styles from './Button.module.css';
 import { Icon } from '@/components';
 import { clsx } from '@/utils';
-import { EButtonBgType, IconNameType } from '@/types';
+import { IconNameType } from '@/types';
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   text?: string;
   iconName?: IconNameType;
-  backgroundType?: EButtonBgType;
+  backgroundType?: 'neutral' | 'primary';
 };
 
 const Button: React.FC<ButtonProps> = (props) => {
@@ -14,7 +14,7 @@ const Button: React.FC<ButtonProps> = (props) => {
     text,
     iconName,
     className,
-    backgroundType = EButtonBgType.Primary,
+    backgroundType = 'primary',
     ...otherProps
   } = props;
 
@@ -23,7 +23,7 @@ const Button: React.FC<ButtonProps> = (props) => {
       type={'button'}
       className={clsx(
         styles.btn,
-        backgroundType === EButtonBgType.Neutral && styles.neutral,
+        backgroundType === 'neutral' && styles.neutral,
         className,
       )}
       {...otherProps}

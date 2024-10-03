@@ -1,5 +1,5 @@
 import { ImageButton } from '@/components';
-import { EImageButtonType, ImageInfoType } from '@/types';
+import { ImageInfoType } from '@/types';
 import { clsx } from '@/utils';
 import styles from './ImagesList.module.css';
 
@@ -37,7 +37,7 @@ const ImagesList: React.FC<ImagesListProps> = (props) => {
                 onImageSelect(imageInfo);
               }}
               isSelected={selectedImageInfo?.src === imageInfo.src}
-              imageType={EImageButtonType.Picture}
+              imageType={'picture'}
               imageAlt={imageInfo.alt}
             />
           </li>

@@ -15,7 +15,7 @@
   }
 
   &.default:not(.withImage) .image {
-    opacity: 0.4;
+    opacity: 0.5;
     transition: opacity var(--transition-medium);
   }
 
@@ -24,17 +24,23 @@
     opacity: 1;
   }
 
-  &.default:hover .clearBtn {
-    pointer-events: auto;
-    opacity: 1;
-  }
+  @media (hover: hover) {
+    &.default:hover .clearBtn {
+      pointer-events: auto;
+      opacity: 1;
+    }
 
-  &.default:not(.withImage):hover .image {
-    opacity: 0.6;
-  }
+    &.default:not(.withImage):hover .image {
+      opacity: 0.7;
+    }
 
-  &.default:hover .icon {
-    color: var(--neutral-800);
+    &.default:hover .icon {
+      color: var(--neutral-800);
+    }
+
+    &.withImage.default:hover .image {
+      filter: brightness(0.9);
+    }
   }
 
   &.default:not(.withImage):active .image {
@@ -43,10 +49,6 @@
 
   &.default:active .icon {
     color: var(--neutral-900);
-  }
-
-  &.withImage.default:hover .image {
-    filter: brightness(0.9);
   }
 
   &.withImage.default:active .image {
@@ -105,8 +107,10 @@
   transition: background-color var(--transition-medium),
     opacity var(--transition-medium);
 
-  &:hover {
-    background-color: rgb(255 255 255 / 90%);
+  @media (hover: hover) {
+    &:hover {
+      background-color: rgb(255 255 255 / 90%);
+    }
   }
 
   &:active {

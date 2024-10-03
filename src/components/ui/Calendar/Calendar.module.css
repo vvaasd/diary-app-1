@@ -2,29 +2,37 @@
   position: relative;
   display: flex;
   flex-grow: 1;
+
+  @media (hover: hover) {
+    & :hover + .icon {
+      color: var(--neutral-800);
+    }
+  }
+
+  &:focus-within {
+    & .input {
+      outline: 1px solid var(--neutral-600);
+    }
+
+    & .icon {
+      color: var(--neutral-900);
+    }
+  }
 }
 
-.calendar {
+.input {
   flex-grow: 1;
   height: 24px;
-}
 
-.calendar:hover + .icon {
-  color: var(--neutral-800);
-}
+  &::-webkit-calendar-picker-indicator {
+    cursor: pointer;
 
-.calendar:focus + .icon {
-  color: var(--neutral-900);
-}
+    width: 24px;
+    height: 24px;
 
-.calendar::-webkit-calendar-picker-indicator {
-  cursor: pointer;
-
-  width: 24px;
-  height: 24px;
-
-  opacity: 0;
-  background-color: transparent;
+    opacity: 0;
+    background-color: transparent;
+  }
 }
 
 .icon {

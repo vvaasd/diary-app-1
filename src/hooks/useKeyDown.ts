@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
-import { EKeyboardKey } from '@/types';
+import { KeyboardKeyEnum } from '@/types';
 
 const useKeyDown = (
-  targetKey: EKeyboardKey,
+  targetKey: KeyboardKeyEnum,
   callback: (event: KeyboardEvent) => void,
 ): void => {
   useEffect(() => {

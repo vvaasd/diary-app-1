@@ -8,7 +8,7 @@ type CalendarProps = React.InputHTMLAttributes<HTMLInputElement>;
 const Calendar: React.FC<CalendarProps> = (props) => {
   const { className, value, ...otherProps } = props;
 
-  const today: string = DateService.getTodayString();
+  const today: string = DateService.getDateString();
 
   return (
     <div className={styles.wrapper}>
@@ -16,7 +16,7 @@ const Calendar: React.FC<CalendarProps> = (props) => {
         type={'date'}
         value={value}
         max={today}
-        className={clsx(styles.calendar, className)}
+        className={clsx(styles.input, className)}
         {...otherProps}
       />
       <Icon name={'calendar'} className={clsx(styles.icon, 'colored')} />

@@ -1,4 +1,6 @@
 :root {
+  --neutral-100-06: rgb(255 255 255 / 60%);
+  --neutral-100-09: rgb(255 255 255 / 90%);
   --neutral-100: #ffffff;
   --neutral-200: #f2f2f2;
   --neutral-250: #f1f1f1;
@@ -7,6 +9,7 @@
   --neutral-500: #e0e0e0;
   --neutral-600: #cacacb;
   --neutral-700: #9fa0a1;
+  --neutral-750-06: rgb(202 202 203 / 60%);
   --neutral-800: #747576;
   --neutral-900: #494b4c;
   --neutral-1000: #1e2022;

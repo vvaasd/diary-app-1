@@ -3,7 +3,7 @@ import { useDebounce, useScrollTop } from '@/hooks';
 import { clsx, mapImages } from '@/utils';
 import { useEffect, useRef, useState } from 'react';
 import { StorageService, Api } from '@/services';
-import { ELocalStorageKeys, ImageInfoType, NoteType } from '@/types';
+import { LocalStorageKeysEnum, ImageInfoType, NoteType } from '@/types';
 import { DEFAULT_IMAGE_INFO } from '@/constants';
 import styles from './SearchImage.module.css';
 
@@ -17,18 +17,19 @@ const SearchImage: React.FC<SearchImageProps> = (props) => {
   const [inputValue, setInputValue] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [selectedImage, setSelectedImage] = useState<ImageInfoType>(
-    (StorageService.get(ELocalStorageKeys.CurrentNote) as NoteType)
+    (StorageService.get(LocalStorageKeysEnum.CurrentNote) as NoteType)
       ?.imageInfo || DEFAULT_IMAGE_INFO,
   );
   const [currentImages, setCurrentImages] = useState<ImageInfoType[]>([]);
   const debouncedInputValue = useDebounce(inputValue, 400);
   const listWrapperRef = useRef<HTMLDivElement>(null);
   const isListScrolled = useScrollTop(listWrapperRef);
+  const imageSelectTimerRef = useRef<ReturnType<typeof setTimeout>>();
 
   const handleImageSelect = (info: ImageInfoType): void => {
     setSelectedImage(info);
 
-    setTimeout(() => {
+    imageSelectTimerRef.current = setTimeout(() => {
       onSelectImage(info);
     }, 200);
   };
@@ -37,7 +38,7 @@ const SearchImage: React.FC<SearchImageProps> = (props) => {
     setInputValue(value);
   };
 
-  const fetchImages = async () => {
+  const fetchAndSetImages = async () => {
     try {
       setIsLoading(true);
       setCurrentImages([]);
@@ -54,9 +55,15 @@ const SearchImage: React.FC<SearchImageProps> = (props) => {
   };
 
   useEffect(() => {
-    fetchImages();
+    fetchAndSetImages();
     // eslint-disable-next-line
   }, [debouncedInputValue]);
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(imageSelectTimerRef.current);
+    };
+  }, []);
 
   const preloaderJSX = (
     <div className={styles.substituteContentWrapper}>

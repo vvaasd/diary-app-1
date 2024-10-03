@@ -2,13 +2,15 @@ import { configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import notesReducer from './slices/notes.slice';
 import currentNoteReducer from './slices/currentNote.slice';
-import pagesReducer from './slices/pages.slice';
+import pageReducer from './slices/page.slice';
+import breakpointReducer from './slices/breakpoint.slice';
 
 const store = configureStore({
   reducer: {
     currentNote: currentNoteReducer,
     notes: notesReducer,
-    pages: pagesReducer,
+    page: pageReducer,
+    breakpoint: breakpointReducer,
   },
 });
 

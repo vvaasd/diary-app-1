@@ -13,8 +13,10 @@
 
   transition: background-color var(--transition-medium);
 
-  &:hover {
-    background-color: var(--primary-450);
+  @media (hover: hover) {
+    &:hover {
+      background-color: var(--primary-450);
+    }
   }
 
   &:active {
@@ -37,8 +39,10 @@
 .btn.neutral {
   background-color: var(--neutral-300);
 
-  &:hover {
-    background-color: var(--neutral-500);
+  @media (hover: hover) {
+    &:hover {
+      background-color: var(--neutral-500);
+    }
   }
 
   &:active {
